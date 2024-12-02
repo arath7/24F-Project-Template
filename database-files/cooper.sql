@@ -90,7 +90,9 @@ CREATE TABLE StudentJobs
     jobID       INT NOT NULL,
     StartDate   DATETIME NOT NULL,
     EndDate     DATETIME NOT NULL,
+    PRIMARY KEY (NUID, jobID),
     FOREIGN KEY (jobID) REFERENCES Job (jobID)
+
 );
 
 -- Review table creation
