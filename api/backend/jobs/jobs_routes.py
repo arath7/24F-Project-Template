@@ -17,7 +17,7 @@ customers = Blueprint('jobs', __name__)
 #------------------------------------------------------------
 # Get all jobs from the system
 @customers.route('/jobs', methods=['GET'])
-def get_customers():
+def get_jobs():
 
     cursor = db.get_db().cursor()
     cursor.execute('''SELECT * FROM Job
@@ -67,7 +67,7 @@ def add_new_job():
 #------------------------------------------------------------
 # Get job details for a job with a particular jobID
 @customers.route('/jobs/<jobID>', methods=['GET'])
-def get_customer(jobID):
+def get_job(jobID):
     current_app.logger.info('GET /jobs/<jobID> route')
     cursor = db.get_db().cursor()
     cursor.execute('SELECT * FROM Job WHERE JobID = {0}'.format(jobID))
@@ -139,4 +139,18 @@ def delete_job(jobID):
     response = make_response("Successfully deleted job")
     response.status_code = 200
     return response
+
+
+#Get employer name from a jobID
+@customers.route('/jobs/employer/<jobID>', methods=['GET'])
+def get_employer_name(jobID):
+    current_app.logger.info('GET /jobs/employer/<jobID> route')
+    cursor = db.get_db().cursor()
+    cursor.execute('SELECT e.Name FROM Employer e JOIN Job j ON e.employerID = j.employerID WHERE j.JobID = {0}'.format(jobID))
+    
+    theData = cursor.fetchall()
+    
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
 

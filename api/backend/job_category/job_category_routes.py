@@ -76,7 +76,7 @@ def get_customer(JobCategoryID):
 #------------------------------------------------------------
 #Update an existing job category with a particular jobCategoryID
 @customers.route('/jobCategory/<JobCategoryID>', methods=['PUT'])
-def update_job(jobID):
+def update_jobcategory(jobID):
 
     the_data = request.json
     current_app.logger.info(the_data)
@@ -101,7 +101,7 @@ def update_job(jobID):
 
 #Delete an existing job category with a particular jobCategoryID
 @customers.route('/jobCategory/<JobCategoryID>', methods=['DELETE'])
-def delete_job(JobCategoryID):
+def delete_jobcategory(JobCategoryID):
     current_app.logger.info('DELETE /jobCategory/<JobCategoryID> route')
     cursor = db.get_db().cursor()
     cursor.execute('DELETE FROM JobCategory WHERE JobCategoryID = {0}'.format(JobCategoryID))
