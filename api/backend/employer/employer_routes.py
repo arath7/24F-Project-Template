@@ -17,7 +17,7 @@ customers = Blueprint('employer', __name__)
 #------------------------------------------------------------
 # Get all employers from the system
 @customers.route('/employer', methods=['GET'])
-def get_customers():
+def get_employers():
 
     cursor = db.get_db().cursor()
     cursor.execute('''SELECT * FROM Employer
@@ -32,7 +32,7 @@ def get_customers():
 #------------------------------------------------------------
 # Add a new employer to the system
 @customers.route('/employer', methods=['POST'])
-def add_new_job():
+def add_new_employer():
     # In a POST request, there is a 
     # collecting data from the request object 
     the_data = request.json
@@ -65,7 +65,7 @@ def add_new_job():
 #------------------------------------------------------------
 # Get employer details for an employer with a particular employerID
 @customers.route('/employer/<employerID>', methods=['GET'])
-def get_customer(employerID):
+def get_employer(employerID):
     current_app.logger.info('GET /employer/<employerID> route')
     cursor = db.get_db().cursor()
     cursor.execute('SELECT * FROM Employer WHERE employerID = {0}'.format(employerID))
@@ -79,7 +79,7 @@ def get_customer(employerID):
 #------------------------------------------------------------
 #Update an existing employer's info with a particular employerID
 @customers.route('/employer/<employerID>', methods=['PUT'])
-def update_job(employerID):
+def update_employer(employerID):
 
     the_data = request.json
     current_app.logger.info(the_data)
@@ -114,7 +114,7 @@ def update_job(employerID):
 
 #Delete an existing employer with a particular employerID
 @customers.route('/employer/<employerID>', methods=['DELETE'])
-def delete_job(employerID):
+def delete_employer(employerID):
     current_app.logger.info('DELETE /employer/<employerID> route')
     cursor = db.get_db().cursor()
     cursor.execute('DELETE FROM Employer WHERE employerID = {0}'.format(employerID))
