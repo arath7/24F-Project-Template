@@ -76,7 +76,7 @@ def get_customer(JobCategoryID):
 #------------------------------------------------------------
 #Update an existing job category with a particular jobCategoryID
 @job_category.route('/jobCategory/<JobCategoryID>', methods=['PUT'])
-def update_jobcategory(jobID):
+def update_jobcategory(JobCategoryID):
 
     the_data = request.json
     current_app.logger.info(the_data)
@@ -85,7 +85,7 @@ def update_jobcategory(jobID):
 
 
     # Prepare the SQL query
-    query = f"UPDATE JobCategory SET Name = '{Name}' WHERE JobCategoryID = %s"
+    query = f"UPDATE JobCategory SET Name = '{Name}' WHERE JobCategoryID = {JobCategoryID}"
 
     
     current_app.logger.info(query)
