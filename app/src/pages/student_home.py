@@ -2,7 +2,6 @@ import logging
 logger = logging.getLogger(__name__)
 import streamlit as st
 from modules.nav import SideBarLinks
-from assets.fakedata import fakedata
 import requests
 
 
@@ -13,35 +12,25 @@ SideBarLinks()
 st.session_state.selected_position = ""
 
 
-# if st.button('see user',
-#              type='primary',
-#              use_container_width=True):
-#   results = requests.get(f'http://api:4000/u/users/100042').json()
-#   st.write(results)
-
 # Simulated data
-jobs = fakedata.get('Job')
-employers = fakedata.get('Employer')
-
-
-# Function to get job titles and employer names
-def get_job_employer_info(jobs, employers):
-    job_employer_info = []
-    # Create a dictionary for fast lookup of employers by employerID
-    employer_dict = {employer["employerID"]: employer["Name"] for employer in employers}
-
-    # For each job, get the job title and employer name using the employerID
-    for job in jobs:
-        employer_name = employer_dict.get(job["employerID"], "Unknown Employer")
-        job_employer_info.append({"title": job["Name"], "employer": employer_name, "rating": job["Rating"], "reviews": job["numReviews"], "description": job["Description"]})
-
-    return job_employer_info
-
-positions = get_job_employer_info(jobs, employers)
+positions = requests.get(f'http://api:4000/j/jobs').json()
+st.dataframe(positions)
 
 # Initialize session state
 if "page" not in st.session_state:
     st.session_state.page = "student_home"
+
+
+def make_listing(pos):
+    st.markdown(f"**{pos['Name']}**")
+    st.write(f"{pos['numReviews']} reviews")
+    # st.write(f"📍 {position['employer']}")
+
+    if pos['Rating'] is None:
+        st.markdown("""<p style='font-size:14px;'>✩✩✩✩✩</p>""", unsafe_allow_html=True)
+    else:
+        st.write("⭐" * int(pos["Rating"]) + "☆" * (5 - int(pos["Rating"])))
+
 
 # Main search page logic
 if st.session_state.page == "student_home":
@@ -50,7 +39,7 @@ if st.session_state.page == "student_home":
     search_query = st.text_input("Search", placeholder="Search for companies or positions")
 
     if search_query:
-        filtered_positions = [pos for pos in positions if search_query.lower() in pos["title"].lower()]
+        filtered_positions = [pos for pos in positions if search_query.lower() in pos["Name"].lower()]
     else:
         filtered_positions = positions  # Show all positions if no query is entered
 
@@ -65,13 +54,13 @@ if st.session_state.page == "student_home":
                 with col1:
                     st.write("📘")
                 with col2:
-                    st.markdown(f"**{position['title']}**")
-                    st.write(f"{position['reviews']} reviews")
-                    st.write(f"📍 {position['employer']}")
-                    st.write("⭐" * int(position["rating"]) + "☆" * (5 - int(position["rating"])))
+                    make_listing(position)
 
                     # "View Details" button
-                    if st.button(f"View Details - {position['title']}", key=position["title"]):
+                    if st.button(f"View Details - {position['Name']}", key=position["Name"]):
                         st.session_state.page = "job_details"
                         st.session_state.selected_position = position
                         st.switch_page('pages/job_details.py');
+
+                    st.markdown("""<hr style="height:2px;border:none;color:#333;background-color:#333;" /> """,
+                                unsafe_allow_html=True)

@@ -11,13 +11,13 @@ from backend.db_connection import db
 #------------------------------------------------------------
 # Create a new Blueprint object, which is a collection of 
 # routes.
-customers = Blueprint('jobs', __name__)
+jobs = Blueprint('jobs', __name__)
 
 
 #------------------------------------------------------------
 # Get all jobs from the system
-@customers.route('/jobs', methods=['GET'])
-def get_customers():
+@jobs.route('/jobs', methods=['GET'])
+def get_jobs():
 
     cursor = db.get_db().cursor()
     cursor.execute('''SELECT * FROM Job
@@ -31,7 +31,7 @@ def get_customers():
 
 #------------------------------------------------------------
 # Add a new job listing to the system
-@customers.route('/jobs', methods=['POST'])
+@jobs.route('/jobs', methods=['POST'])
 def add_new_job():
     # In a POST request, there is a 
     # collecting data from the request object 
@@ -66,8 +66,8 @@ def add_new_job():
 
 #------------------------------------------------------------
 # Get job details for a job with a particular jobID
-@customers.route('/jobs/<jobID>', methods=['GET'])
-def get_customer(jobID):
+@jobs.route('/jobs/<jobID>', methods=['GET'])
+def get_job(jobID):
     current_app.logger.info('GET /jobs/<jobID> route')
     cursor = db.get_db().cursor()
     cursor.execute('SELECT * FROM Job WHERE JobID = {0}'.format(jobID))
@@ -80,7 +80,7 @@ def get_customer(jobID):
 
 #------------------------------------------------------------
 #Update an existing job listing with a particular jobID
-@customers.route('/jobs/<jobID>', methods=['PUT'])
+@jobs.route('/jobs/<jobID>', methods=['PUT'])
 def update_job(jobID):
 
     the_data = request.json
@@ -129,7 +129,7 @@ def update_job(jobID):
     return response
 
 #Delete an existing job listing with a particular jobID
-@customers.route('/jobs/<jobID>', methods=['DELETE'])
+@jobs.route('/jobs/<jobID>', methods=['DELETE'])
 def delete_job(jobID):
     current_app.logger.info('DELETE /jobs/<jobID> route')
     cursor = db.get_db().cursor()
@@ -139,4 +139,31 @@ def delete_job(jobID):
     response = make_response("Successfully deleted job")
     response.status_code = 200
     return response
+
+
+#Get employer name from a jobID
+@jobs.route('/jobs/employer/<jobID>', methods=['GET'])
+def get_employer_name(jobID):
+    current_app.logger.info('GET /jobs/employer/<jobID> route')
+    cursor = db.get_db().cursor()
+    cursor.execute('SELECT e.Name FROM Employer e JOIN Job j ON e.employerID = j.employerID WHERE j.JobID = {0}'.format(jobID))
+    
+    theData = cursor.fetchall()
+    
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
+#Get average overall satisfaction rating for a job with a particular jobID
+@jobs.route('/jobs/averageRating/<jobID>', methods=['GET'])
+def get_job_average_rating(jobID):
+    current_app.logger.info('GET /jobs/averageRating/<jobID> route')
+    cursor = db.get_db().cursor()
+    cursor.execute('SELECT AVG(overallSatisfaction) FROM Review WHERE jobID = {0}'.format(jobID))
+    
+    theData = cursor.fetchall()
+    
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
 

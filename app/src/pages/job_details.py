@@ -4,6 +4,7 @@ import streamlit as st
 from streamlit_extras.switch_page_button import switch_page
 from modules.nav import SideBarLinks
 from assets.fakedata import fakedata
+from pages.student_home import make_listing
 
 
 # Page configuration
@@ -12,10 +13,6 @@ SideBarLinks()
 
 # Simulated review data
 therevs = fakedata.get('Review')
-# reviews = [
-#     {"name": "Sam Brown", "comment": "I really liked this job! Everyone was so nice and helpful.", "rating": 5},
-#     {"name": "Jenny Martin", "comment": "Valuable experience! I feel as though I didn’t learn anything new", "rating": 3},
-# ]
 students = fakedata.get("Student")
 
 
@@ -50,11 +47,15 @@ if st.session_state.page == "job_details":
     col1, col2 = st.columns([1, 3])
 
     with col2:
-        st.markdown(f"**{position['title']}**")
-        st.write(f"{position['reviews']} reviews")
-        st.write(f"📍 {position['employer']}")
-        st.write(f"📍 {position['description']}")
-        st.write("⭐" * int(position["rating"]) + "☆" * (5 - int(position["rating"])))
+        # st.markdown(f"**{position['Name']}**")
+        # st.write(f"{position['numReviews']} reviews")
+        # # st.write(f"📍 {position['employer']}")
+        # st.write(f"ℹ️ {position['description']}")
+        #
+        #
+        # st.write("⭐" * int(position["rating"]) + "☆" * (5 - int(position["rating"])))
+
+        make_listing(position)
 
         if st.session_state['first_name'] == 'Penny':
             st.button("I have worked as this position", disabled=True)
@@ -62,8 +63,10 @@ if st.session_state.page == "job_details":
         else:
             st.button("❓ I'm interested in this position", disabled=True)
 
-    st.write("Most users who have held this job found they learned a lot of technical skills, "
-             "had their contributions valued, and experienced a supportive work culture.")
+    st.write(position["Description"])
+    st.write(f"Salary:", position['Salary'])
+    st.write(f"Number of open positions:", position['numOpenings'])
+    st.write(f"Average return offers:", position['returnOffers'])
 
     if st.session_state['first_name'] == 'Penny':
         if st.button("Leave a review →", type = 'primary') :
