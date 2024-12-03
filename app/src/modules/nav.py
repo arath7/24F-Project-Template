@@ -78,16 +78,19 @@ def SideBarLinks(show_home=False):
     if st.session_state["authenticated"]:
 
         # Show World Bank Link and Map Demo Link if the user is a political strategy advisor role.
-        if st.session_state["role"] == "pol_strat_advisor":
-            PolStratAdvHomeNav()
-            WorldBankVizNav()
-            MapDemoNav()
+        if st.session_state["first_name"] == "Penny":
+            st.sidebar.page_link(
+                "pages/write_review.py", label="Write a Review️", icon="✏️"
+            )
 
         # If the user role is usaid worker, show the Api Testing page
-        if st.session_state["role"] == "usaid_worker":
-            PredictionNav()
-            ApiTestNav()
-            ClassificationNav()
+        if st.session_state["role"] == "student":
+            st.sidebar.page_link(
+                "pages/student_profile.py", label="Profile", icon="🙂️"
+            )
+            st.sidebar.page_link(
+                "pages/student_home.py", label="Search for jobs", icon="🔍️"
+            )
 
         # If the user is an administrator, give them access to the administrator pages
         if st.session_state["role"] == "administrator":
