@@ -11,12 +11,12 @@ from backend.db_connection import db
 #------------------------------------------------------------
 # Create a new Blueprint object, which is a collection of 
 # routes.
-customers = Blueprint('job_category', __name__)
+job_category = Blueprint('job_category', __name__)
 
 
 #------------------------------------------------------------
 # Get all job categories from the system
-@customers.route('/jobCategory', methods=['GET'])
+@job_category.route('/jobCategory', methods=['GET'])
 def get_customers():
 
     cursor = db.get_db().cursor()
@@ -31,7 +31,7 @@ def get_customers():
 
 #------------------------------------------------------------
 # Add a new job category to the system
-@customers.route('/jobCategory', methods=['POST'])
+@job_category.route('/jobCategory', methods=['POST'])
 def add_new_job():
     # In a POST request, there is a 
     # collecting data from the request object 
@@ -61,7 +61,7 @@ def add_new_job():
 
 #------------------------------------------------------------
 # Get job category details for a job category with a particular jobCategoryID
-@customers.route('/jobCategory/<JobCategoryID>', methods=['GET'])
+@job_category.route('/jobCategory/<JobCategoryID>', methods=['GET'])
 def get_customer(JobCategoryID):
     current_app.logger.info('GET /jobCategory/<JobCategoryID> route')
     cursor = db.get_db().cursor()
@@ -75,7 +75,7 @@ def get_customer(JobCategoryID):
 
 #------------------------------------------------------------
 #Update an existing job category with a particular jobCategoryID
-@customers.route('/jobCategory/<JobCategoryID>', methods=['PUT'])
+@job_category.route('/jobCategory/<JobCategoryID>', methods=['PUT'])
 def update_jobcategory(jobID):
 
     the_data = request.json
@@ -100,7 +100,7 @@ def update_jobcategory(jobID):
     return response
 
 #Delete an existing job category with a particular jobCategoryID
-@customers.route('/jobCategory/<JobCategoryID>', methods=['DELETE'])
+@job_category.route('/jobCategory/<JobCategoryID>', methods=['DELETE'])
 def delete_jobcategory(JobCategoryID):
     current_app.logger.info('DELETE /jobCategory/<JobCategoryID> route')
     cursor = db.get_db().cursor()
