@@ -85,3 +85,5 @@ elif current_page == "Search Jobs":
 elif current_page == "Search Employers":
     st.subheader("Search Employers")
     st.dataframe(employers_data)
+
+
