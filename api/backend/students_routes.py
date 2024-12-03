@@ -37,13 +37,14 @@ def add_new_student():
 
     # Extracting the variables
     NUID = the_data['NUID']
-    name = the_data['firstName, lastName']
+    firstName = the_data['firstName']
+    lastName = the_data['lastName']
     Email = the_data['Email']
     major = the_data['major']
     GradYear = the_data['GradYear']
 
-    query = f''' INSERT INTO Student (studentID, name, email, major, grad_year)
-      VALUES ('{NUID}', '{firstName, lastName}', '{Email}', '{major}', '{GradYear}') 
+    query = f''' INSERT INTO Student (studentID, firstName, lastName, email, major, grad_year)
+      VALUES ('{NUID}', '{firstName}', '{lastName} '{Email}', '{major}', '{GradYear}') 
     '''
     
     current_app.logger.info(query)

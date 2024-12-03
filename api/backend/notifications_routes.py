@@ -25,7 +25,7 @@ def create_notification():
     sentDate = the_data['sentDate']
 
     query = f'''INSERT INTO Notifications (NUID, Content, sentDate)
-                VALUES ('{NUID}', '{Content}', '{SentDate}')'''
+                VALUES ('{NUID}', '{Content}', '{sentDate}')'''
     current_app.logger.info(query)
 
     cursor = db.get_db().cursor()
