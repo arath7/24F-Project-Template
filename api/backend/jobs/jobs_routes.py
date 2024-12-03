@@ -154,3 +154,16 @@ def get_employer_name(jobID):
     the_response.status_code = 200
     return the_response
 
+#Get average overall satisfaction rating for a job with a particular jobID
+@jobs.route('/jobs/averageRating/<jobID>', methods=['GET'])
+def get_job_average_rating(jobID):
+    current_app.logger.info('GET /jobs/averageRating/<jobID> route')
+    cursor = db.get_db().cursor()
+    cursor.execute('SELECT AVG(overallSatisfaction) FROM Review WHERE jobID = {0}'.format(jobID))
+    
+    theData = cursor.fetchall()
+    
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
