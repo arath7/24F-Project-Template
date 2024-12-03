@@ -126,6 +126,31 @@ def delete_review(reviewID):
     response.status_code = 200
     return response
 
+#Get all the reviews written by a student, given the studentNUID
+@review.route('/review/student/<StudentNUID>', methods=['GET'])
+def get_student(StudentNUID):
+    current_app.logger.info('GET /review/student/<StudentNUID> route')
+    cursor = db.get_db().cursor()
+    cursor.execute('SELECT * FROM Review WHERE StudentNUID = {0}'.format(StudentNUID))
+    
+    theData = cursor.fetchall()
+    
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
+#Get all the reviews written for a job, given the JobID
+@review.route('/review/job/<JobID>', methods=['GET'])
+def get_job(JobID):
+    current_app.logger.info('GET /review/job/<JobID> route')
+    cursor = db.get_db().cursor()
+    cursor.execute('SELECT * FROM Review WHERE JobID = {0}'.format(JobID))
+    
+    theData = cursor.fetchall()
+    
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
 
 #
 
