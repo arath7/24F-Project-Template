@@ -77,6 +77,41 @@ def get_review(reviewID):
     the_response.status_code = 200
     return the_response
 
+#Update an existing review with a particular reviewID
+@customers.route('/review/<reviewID>', methods=['PUT'])
+def update_review(reviewID):
+
+    the_data = request.json
+    current_app.logger.info(the_data)
+
+    # Dynamically build the SET clause of the query
+    fields_to_update = []
+    for field, value in the_data.items():
+        # Avoid SQL injection by using parameterized queries
+        fields_to_update.append(f"{field} = %s")
+
+    # Join the fields to create the SET clause
+    set_clause = ", ".join(fields_to_update)
+
+    # Prepare the SQL query
+    query = f"UPDATE Review SET {set_clause} WHERE reviewID = %s"
+
+    # Extract values from the_data to match the parameterized query
+    values = list(the_data.values())
+    values.append(reviewID)  # Add reviewID for the WHERE clause
+
+
+    
+    current_app.logger.info(query)
+
+    # executing and committing the insert statement 
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    db.get_db().commit()
+    
+    response = make_response("Successfully updated review")
+    response.status_code = 200
+    return response
 
 
 #Delete an existing review with a particular reviewID
