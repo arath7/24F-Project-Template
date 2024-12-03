@@ -11,12 +11,12 @@ from backend.db_connection import db
 #------------------------------------------------------------
 # Create a new Blueprint object, which is a collection of 
 # routes.
-customers = Blueprint('review', __name__)
+review = Blueprint('review', __name__)
 
 
 #------------------------------------------------------------
 # Get all reviews from the system
-@customers.route('/review', methods=['GET'])
+@review.route('/review', methods=['GET'])
 def get_customers():
 
     cursor = db.get_db().cursor()
@@ -31,7 +31,7 @@ def get_customers():
 
 #------------------------------------------------------------
 # Add a new review to the system
-@customers.route('/review', methods=['POST'])
+@review.route('/review', methods=['POST'])
 def add_new_review():
     # In a POST request, there is a 
     # collecting data from the request object 
@@ -65,7 +65,7 @@ def add_new_review():
 
 #------------------------------------------------------------
 # Get review details for a particular reviewID
-@customers.route('/review/<reviewID>', methods=['GET'])
+@review.route('/review/<reviewID>', methods=['GET'])
 def get_review(reviewID):
     current_app.logger.info('GET /review/<reviewID> route')
     cursor = db.get_db().cursor()
@@ -78,7 +78,7 @@ def get_review(reviewID):
     return the_response
 
 #Update an existing review with a particular reviewID
-@customers.route('/review/<reviewID>', methods=['PUT'])
+@review.route('/review/<reviewID>', methods=['PUT'])
 def update_review(reviewID):
 
     the_data = request.json
@@ -115,7 +115,7 @@ def update_review(reviewID):
 
 
 #Delete an existing review with a particular reviewID
-@customers.route('/review/<reviewID>', methods=['DELETE'])
+@review.route('/review/<reviewID>', methods=['DELETE'])
 def delete_review(reviewID):
     current_app.logger.info('DELETE /review/<reviewID> route')
     cursor = db.get_db().cursor()
