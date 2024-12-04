@@ -4,11 +4,11 @@ from backend.db_connection import db
 from backend.customers.customer_routes import customers
 from backend.products.products_routes import products
 from backend.simple.simple_routes import simple_routes
-from api.backend.jobs_routes import jobs
-from api.backend.review_routes import review
-from api.backend.employer_routes import employer
-from api.backend.flagged_content_routes import flagged_content
-from api.backend.administration_routes import admin
+from backend.jobs_routes import jobs
+from backend.review_routes import review
+from backend.employer_routes import employer
+from backend.flagged_content_routes import flagged_content
+from backend.administration_routes import admin
 
 import os
 from dotenv import load_dotenv
