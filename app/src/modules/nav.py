@@ -25,7 +25,7 @@ def StudentPageNav():
 def AdminPageNav():
     st.sidebar.page_link("pages/statistics.py", label="Current Statistics", icon="🖥️")
     st.sidebar.page_link("pages/flagreviews.py", label="Reviews", icon="📝")
-    st.sidebar.page_link("pages/job_details.py", label="Jobs", icon="💼")
+    st.sidebar.page_link("pages/job_admin.py", label="Jobs", icon="💼")
     st.sidebar.page_link("pages/employers_admin.py", label="Employers", icon="🏢")
 
 
