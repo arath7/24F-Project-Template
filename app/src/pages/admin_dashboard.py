@@ -26,47 +26,32 @@ if "page" not in st.session_state:
 #   st.write(results)
 
 # Simulated data
-jobs = fakedata.get('Job') # routes to get all jobs
-employers = fakedata.get('Employer') # routes to get all employers
+# jobs = fakedata.get('Job') # routes to get all jobs
+# employers = fakedata.get('Employer') # routes to get all employers
 
 
-# Function to get job titles and employer names
-def get_job_employer_info(jobs, employers):
-    job_employer_info = []
-    # Create a dictionary for fast lookup of employers by employerID
-    employer_dict = {employer["employerID"]: employer["Name"] for employer in employers}
+# # Function to get job titles and employer names
+# def get_job_employer_info(jobs, employers):
+#     job_employer_info = []
+#     # Create a dictionary for fast lookup of employers by employerID
+#     employer_dict = {employer["employerID"]: employer["Name"] for employer in employers}
 
-    # For each job, get the job title and employer name using the employerID
-    for job in jobs:
-        employer_name = employer_dict.get(job["employerID"], "Unknown Employer")
-        job_employer_info.append({"title": job["Name"], "employer": employer_name, "rating": job["Rating"], "reviews": job["numReviews"], "description": job["Description"]})
+#     # For each job, get the job title and employer name using the employerID
+#     for job in jobs:
+#         employer_name = employer_dict.get(job["employerID"], "Unknown Employer")
+#         job_employer_info.append({"title": job["Name"], "employer": employer_name, "rating": job["Rating"], "reviews": job["numReviews"], "description": job["Description"]})
 
-    return job_employer_info
+#     return job_employer_info
 
 st.title('Admin Dashboard')
 st.write('Welcome to the Admin Dashboard!')
 
-
-if st.sidebar.button("Current Statistics"):
-    st.switch_page('pages/statistics.py')
-if st.sidebar.button("Search Reviews"):
-    st.switch_page('pages/reviews.py')
-if st.sidebar.button("Search Statistics"):
-    st.switch_page('pages/statistics.py')
-if st.sidebar.button("Search Students"):
-    st.switch_page('pages/student_home.py')
-if st.sidebar.button("Search Jobs"):
-    st.switch_page('pages/jobs.py')
-if st.sidebar.button("Search Employers"):
-    st.switch_page('pages/employers.py')
 
 # st.sidebar.title("Admin Dashboard")
 # page = st.sidebar.radio("Navigate to:", 
 #                          ["Current Statistics", "Search Reviews", "Search Flagged Reviews", "Search Students", "Search Jobs", "Search Employers"])
 
 # def sidebar_navigation():
-#     if st.sidebar.button("Current Statistics"):
-#         st.switch_page('pages/statistics.py')
 #     if st.sidebar.button("Search Reviews"):
 #         st.switch_page('pages/reviews.py')
 #     if st.sidebar.button("Search Statistics"):
