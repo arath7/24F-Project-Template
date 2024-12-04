@@ -14,7 +14,7 @@ st.session_state.selected_position = ""
 
 # Simulated data
 positions = requests.get(f'http://api:4000/j/jobs').json()
-st.dataframe(positions)
+# st.dataframe(positions)
 
 # Initialize session state
 if "page" not in st.session_state:
