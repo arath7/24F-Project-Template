@@ -1,5 +1,12 @@
 USE cooper;
 
+-- need to add multiple reviews for a job
+-- multiple students to a job
+-- multiple reviews to a student
+-- figure out how to update ratings of a job and employer as reviews are added or if query needed on api side for it
+
+
+
 INSERT INTO JobCategory (Name) VALUES ('Software Development');
 INSERT INTO JobCategory (Name) VALUES ('Data Science');
 INSERT INTO JobCategory (Name) VALUES ('Marketing');
@@ -361,48 +368,67 @@ INSERT INTO Review (StudentNUID, learningOpportunities, workCulture, overallSati
 (100040, 8, 7, 8, 8, 'Great learning experience in full-stack development.', 40);
 
 
-INSERT INTO Notifications (NUID, employerID, sentDate, Content) VALUES
-(NULL, 1, '2024-11-01 10:15:00', 'Your recent review has been approved and is now live.'),
-(NULL, 5, '2024-11-01 14:30:00', 'A new candidate has applied for your job posting.'),
-(100002, NULL, '2024-11-02 09:45:00', 'A new job listing matching your interests has been posted.'),
-(100003, NULL, '2024-11-03 12:15:00', 'Your application status for Software Engineer Co-op has been updated.'),
-(NULL, 10, '2024-11-03 15:00:00', 'Your employer rating has been updated.'),
-(100004, NULL, '2024-11-04 08:30:00', 'A new internship opportunity has been added to your dashboard.'),
-(NULL, 12, '2024-11-05 11:45:00', 'Your recent job posting has been reviewed and published.'),
-(100005, NULL, '2024-11-06 10:20:00', 'Congratulations, your interview is scheduled for the upcoming week.'),
-(NULL, 18, '2024-11-07 16:45:00', 'You received a new message from a student regarding your job posting.'),
-(100006, NULL, '2024-11-08 14:10:00', 'A new opportunity in your major is now available.'),
-(NULL, 20, '2024-11-08 18:20:00', 'Reminder: Review your candidates before the application deadline.'),
-(100007, NULL, '2024-11-09 09:00:00', 'Your profile has been viewed by a potential employer.'),
-(NULL, 25, '2024-11-10 13:30:00', 'Your candidate’s status for an open position has changed.'),
-(100008, NULL, '2024-11-11 15:50:00', 'Don’t miss the deadline for submitting your application.'),
-(NULL, 30, '2024-11-12 08:15:00', 'Your job listing for Data Analyst has received 10 applications.'),
-(100009, NULL, '2024-11-13 17:40:00', 'Your application for Marketing Intern has been shortlisted.'),
-(NULL, 35, '2024-11-14 10:25:00', 'Reminder: Provide feedback on your last hire.'),
-(100010, NULL, '2024-11-15 14:05:00', 'A new software engineering position has been added.'),
-(NULL, 38, '2024-11-16 11:00:00', 'Your job posting for Project Manager is expiring soon.'),
-(100011, NULL, '2024-11-17 13:10:00', 'Your application for Research Assistant is under review.'),
-(NULL, 15, '2024-11-18 14:30:00', 'You have received a 5-star review from a former candidate.'),
-(100012, NULL, '2024-11-19 09:20:00', 'Your internship application has been accepted.'),
-(NULL, 21, '2024-11-20 10:40:00', 'Your job posting for UX Designer has been updated.'),
-(100013, NULL, '2024-11-21 15:35:00', 'Don’t forget to follow up with your interviewer.'),
-(NULL, 6, '2024-11-22 13:25:00', 'Your recent review has been featured on your company profile.'),
-(100014, NULL, '2024-11-23 11:10:00', 'Congratulations! Your offer letter is available for download.'),
-(NULL, 3, '2024-11-24 14:15:00', 'Your job posting for Cybersecurity Analyst has received new applicants.'),
-(100015, NULL, '2024-11-25 12:00:00', 'An employer is interested in your profile.'),
-(NULL, 11, '2024-11-26 16:00:00', 'Your job posting has been shared 50 times on social media.'),
-(100016, NULL, '2024-11-27 09:45:00', 'You have been invited for a virtual interview.'),
-(NULL, 19, '2024-11-28 10:30:00', 'A student has sent you a follow-up question about your job posting.'),
-(100017, NULL, '2024-11-29 11:00:00', 'Your resume has been viewed by multiple employers.'),
-(NULL, 23, '2024-11-30 14:50:00', 'Your employer profile has received a new endorsement.'),
-(100018, NULL, '2024-12-01 15:45:00', 'A new job in your field has been posted.'),
-(NULL, 26, '2024-12-02 16:30:00', 'Your upcoming interview schedule has been updated.'),
-(100019, NULL, '2024-12-03 11:10:00', 'You have successfully accepted the job offer.'),
-(NULL, 7, '2024-12-04 12:40:00', 'Your job posting has received a new application.'),
-(100020, NULL, '2024-12-05 13:15:00', 'Your skills match a recently posted internship.'),
-(NULL, 14, '2024-12-06 10:30:00', 'Your employer rating has increased to 4.7.'),
-(100021, NULL, '2024-12-07 16:45:00', 'An interview reminder for tomorrow is scheduled.'),
-(NULL, 2, '2024-12-08 09:30:00', 'A candidate has completed their interview feedback.');
+INSERT INTO Notifications (NUID, sentDate, Content) VALUES
+(100001, '2024-12-01 08:30:00', 'Your internship application has been received.'),
+(100002, '2024-12-01 08:45:00', 'Your co-op application is under review.'),
+(100003, '2024-12-01 09:00:00', 'Reminder: Submit supporting documents for your internship.'),
+(100004, '2024-12-01 09:15:00', 'Your co-op application has been approved.'),
+(100005, '2024-12-01 09:30:00', 'Follow up with your internship coordinator for next steps.'),
+(100006, '2024-12-01 09:45:00', 'Your co-op application needs additional details.'),
+(100007, '2024-12-01 10:00:00', 'Reminder: Submit your internship review by Dec 10th.'),
+(100008, '2024-12-01 10:15:00', 'Co-op interview scheduled on Dec 5th. Check your email for details.'),
+(100009, '2024-12-01 10:30:00', 'Internship application deadline extended to Dec 15th.'),
+(100010, '2024-12-01 10:45:00', 'Your co-op placement has been confirmed.'),
+(100011, '2024-12-01 11:00:00', 'Reminder: Schedule your internship review meeting.'),
+(100012, '2024-12-01 11:15:00', 'Your internship application status has been updated.'),
+(100013, '2024-12-01 11:30:00', 'Your co-op evaluation form is due soon.'),
+(100014, '2024-12-01 11:45:00', 'Follow up with your internship advisor for feedback.'),
+(100015, '2024-12-01 12:00:00', 'Your internship application has been approved.'),
+(100016, '2024-12-01 12:15:00', 'Co-op review submission deadline is approaching.'),
+(100017, '2024-12-01 12:30:00', 'Internship review meeting scheduled for Dec 8th.'),
+(100018, '2024-12-01 12:45:00', 'Reminder: Complete your co-op employer evaluation.'),
+(100019, '2024-12-01 13:00:00', 'Your co-op application has been forwarded for review.'),
+(100020, '2024-12-01 13:15:00', 'Submit your internship timesheet by Dec 7th.'),
+(100021, '2024-12-01 13:30:00', 'Co-op advisor feedback is available in your portal.'),
+(100022, '2024-12-01 13:45:00', 'Your internship employer review is due soon.'),
+(100023, '2024-12-01 14:00:00', 'Update your internship details in the portal.'),
+(100024, '2024-12-01 14:15:00', 'Your co-op employer feedback has been submitted.'),
+(100025, '2024-12-01 14:30:00', 'Reminder: Submit your internship weekly report.'),
+(100026, '2024-12-01 14:45:00', 'Your co-op placement process is underway.'),
+(100027, '2024-12-01 15:00:00', 'Internship midterm evaluation is due next week.'),
+(100028, '2024-12-01 15:15:00', 'Reminder: Complete your co-op learning objectives.'),
+(100029, '2024-12-01 15:30:00', 'Your internship extension request has been approved.'),
+(100030, '2024-12-01 15:45:00', 'Submit your final co-op report by Dec 20th.'),
+(100031, '2024-12-01 16:00:00', 'Your internship approval is pending supervisor review.'),
+(100032, '2024-12-01 16:15:00', 'Reminder: Schedule your co-op advisor meeting.'),
+(100033, '2024-12-01 16:30:00', 'Your internship learning objectives have been approved.'),
+(100034, '2024-12-01 16:45:00', 'Your co-op review submission has been received.'),
+(100035, '2024-12-01 17:00:00', 'Internship site visit scheduled for Dec 6th.'),
+(100036, '2024-12-01 17:15:00', 'Co-op midterm review meeting set for Dec 9th.'),
+(100037, '2024-12-01 17:30:00', 'Submit your final internship evaluation by Dec 15th.'),
+(100038, '2024-12-01 17:45:00', 'Your co-op employer confirmation has been received.'),
+(100039, '2024-12-01 18:00:00', 'Internship review comments are available in the portal.'),
+(100040, '2024-12-01 18:15:00', 'Your internship end date is approaching.'),
+(100041, '2024-12-01 18:30:00', 'Reminder: Provide feedback on your co-op experience.'),
+(100042, '2024-12-01 18:45:00', 'Internship final report submission deadline: Dec 15th.'),
+(100043, '2024-12-01 19:00:00', 'Co-op site visit scheduled for Dec 8th.'),
+(100044, '2024-12-01 19:15:00', 'Internship application processing update available.'),
+(100045, '2024-12-01 19:30:00', 'Submit your co-op weekly activity log by Dec 6th.'),
+(100046, '2024-12-01 19:45:00', 'Internship advisor feedback is available now.'),
+(100047, '2024-12-01 20:00:00', 'Co-op extension request needs additional details.'),
+(100048, '2024-12-01 20:15:00', 'Reminder: Upload internship documents to your portal.'),
+(100049, '2024-12-01 20:30:00', 'Internship advisor meeting confirmed for Dec 10th.'),
+(100050, '2024-12-01 20:45:00', 'Your co-op final evaluation form is due Dec 12th.'),
+(100051, '2024-12-01 21:00:00', 'Internship application feedback provided.'),
+(100052, '2024-12-01 21:15:00', 'Co-op employer survey submission deadline: Dec 15th.'),
+(100053, '2024-12-01 21:30:00', 'Internship midterm evaluation scheduled for Dec 5th.'),
+(100054, '2024-12-01 21:45:00', 'Submit your co-op learning plan by Dec 10th.'),
+(100055, '2024-12-01 22:00:00', 'Internship placement confirmation email sent.'),
+(100056, '2024-12-01 22:15:00', 'Reminder: Complete your co-op timesheet for November.'),
+(100057, '2024-12-01 22:30:00', 'Your internship report submission has been received.'),
+(100058, '2024-12-01 22:45:00', 'Reminder: Review your co-op agreement details.'),
+(100059, '2024-12-01 23:00:00', 'Internship site visit confirmed for Dec 9th.'),
+(100060, '2024-12-01 23:15:00', 'Submit your co-op reflection essay by Dec 14th.');
 
 
 INSERT INTO Starred_Employers (employerID, NUID) VALUES

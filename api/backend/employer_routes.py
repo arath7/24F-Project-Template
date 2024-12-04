@@ -11,12 +11,12 @@ from backend.db_connection import db
 #------------------------------------------------------------
 # Create a new Blueprint object, which is a collection of 
 # routes.
-customers = Blueprint('employer', __name__)
+employer = Blueprint('employer', __name__)
 
 
 #------------------------------------------------------------
 # Get all employers from the system
-@customers.route('/employer', methods=['GET'])
+@employer.route('/employer', methods=['GET'])
 def get_employers():
 
     cursor = db.get_db().cursor()
@@ -31,7 +31,7 @@ def get_employers():
 
 #------------------------------------------------------------
 # Add a new employer to the system
-@customers.route('/employer', methods=['POST'])
+@employer.route('/employer', methods=['POST'])
 def add_new_employer():
     # In a POST request, there is a 
     # collecting data from the request object 
@@ -64,7 +64,7 @@ def add_new_employer():
 
 #------------------------------------------------------------
 # Get employer details for an employer with a particular employerID
-@customers.route('/employer/<employerID>', methods=['GET'])
+@employer.route('/employer/<employerID>', methods=['GET'])
 def get_employer(employerID):
     current_app.logger.info('GET /employer/<employerID> route')
     cursor = db.get_db().cursor()
@@ -78,7 +78,7 @@ def get_employer(employerID):
 
 #------------------------------------------------------------
 #Update an existing employer's info with a particular employerID
-@customers.route('/employer/<employerID>', methods=['PUT'])
+@employer.route('/employer/<employerID>', methods=['PUT'])
 def update_employer(employerID):
 
     the_data = request.json
@@ -113,7 +113,7 @@ def update_employer(employerID):
     return response
 
 #Delete an existing employer with a particular employerID
-@customers.route('/employer/<employerID>', methods=['DELETE'])
+@employer.route('/employer/<employerID>', methods=['DELETE'])
 def delete_employer(employerID):
     current_app.logger.info('DELETE /employer/<employerID> route')
     cursor = db.get_db().cursor()
@@ -125,7 +125,7 @@ def delete_employer(employerID):
     return response
 
 #Get all jobs listed by a specific employer
-@customers.route('/employer/<employerID>/jobs', methods=['GET'])
+@employer.route('/employer/<employerID>/jobs', methods=['GET'])
 def get_jobs_by_employer(employerID):
     current_app.logger.info('GET /employer/<employerID>/jobs route')
     cursor = db.get_db().cursor()
