@@ -13,6 +13,12 @@ SideBarLinks()
 st.session_state.selected_position = ""
 
 
+# Initialize session state
+if "page" not in st.session_state:
+    st.session_state.page = "admin_dashboard"
+
+
+
 # if st.button('see user',
 #              type='primary',
 #              use_container_width=True):
@@ -38,52 +44,68 @@ def get_job_employer_info(jobs, employers):
     return job_employer_info
 
 st.title('Admin Dashboard')
-
-  st.sidebar.title("Admin Dashboard")
-page = st.sidebar.radio("Navigate to:", 
-                         ["Search Reviews", "Search Flagged Reviews", "Search Students", "Search Jobs", "Search Employers"])
-
-def sidebar_navigation():
-    st.sidebar.title("Admin Dashboard")
-    if st.sidebar.button("Search Reviews"):
-        st.switch_page('pages/reviews.py')
-    if st.sidebar.button("Search Statistics"):
-        st.switch_page('pages/statistics.py')
-    if st.sidebar.button("Search Students"):
-        st.switch_page('pages/student_home.py')
-    if st.sidebar.button("Search Jobs"):
-        st.switch_page('pages/jobs.py')
-    if st.sidebar.button("Search Employers"):
-        st.switch_page('pages/employers.py')
-
-# Render sidebar buttons
-sidebar_navigation()
+st.write('Welcome to the Admin Dashboard!')
 
 
-# Display content based on the current page
-st.title(f"Admin Dashboard - {current_page}")
+if st.sidebar.button("Current Statistics"):
+    st.switch_page('pages/statistics.py')
+if st.sidebar.button("Search Reviews"):
+    st.switch_page('pages/reviews.py')
+if st.sidebar.button("Search Statistics"):
+    st.switch_page('pages/statistics.py')
+if st.sidebar.button("Search Students"):
+    st.switch_page('pages/student_home.py')
+if st.sidebar.button("Search Jobs"):
+    st.switch_page('pages/jobs.py')
+if st.sidebar.button("Search Employers"):
+    st.switch_page('pages/employers.py')
 
-if current_page == "Search Reviews":
-    st.subheader("Search Reviews")
-    st.dataframe(reviews_data)
+# st.sidebar.title("Admin Dashboard")
+# page = st.sidebar.radio("Navigate to:", 
+#                          ["Current Statistics", "Search Reviews", "Search Flagged Reviews", "Search Students", "Search Jobs", "Search Employers"])
 
-elif current_page == "Search Flagged Reviews":
-    st.subheader("Search Flagged Reviews")
-    if flagged_reviews_data.empty:
-        st.warning("No flagged reviews at the moment.")
-    else:
-        st.dataframe(flagged_reviews_data)
+# def sidebar_navigation():
+#     if st.sidebar.button("Current Statistics"):
+#         st.switch_page('pages/statistics.py')
+#     if st.sidebar.button("Search Reviews"):
+#         st.switch_page('pages/reviews.py')
+#     if st.sidebar.button("Search Statistics"):
+#         st.switch_page('pages/statistics.py')
+#     if st.sidebar.button("Search Students"):
+#         st.switch_page('pages/student_home.py')
+#     if st.sidebar.button("Search Jobs"):
+#         st.switch_page('pages/jobs.py')
+#     if st.sidebar.button("Search Employers"):
+#         st.switch_page('pages/employers.py')
 
-elif current_page == "Search Students":
-    st.subheader("Search Students")
-    st.dataframe(students_data)
+# # Render sidebar buttons
+# sidebar_navigation()
 
-elif current_page == "Search Jobs":
-    st.subheader("Search Jobs")
-    st.dataframe(jobs_data)
 
-elif current_page == "Search Employers":
-    st.subheader("Search Employers")
-    st.dataframe(employers_data)
+# # Display content based on the current page
+# st.title(f"Admin Dashboard - {current_page}")
+
+# if current_page == "Search Reviews":
+#     st.subheader("Search Reviews")
+#     st.dataframe(reviews_data)
+
+# elif current_page == "Search Flagged Reviews":
+#     st.subheader("Search Flagged Reviews")
+#     if flagged_reviews_data.empty:
+#         st.warning("No flagged reviews at the moment.")
+#     else:
+#         st.dataframe(flagged_reviews_data)
+
+# elif current_page == "Search Students":
+#     st.subheader("Search Students")
+#     st.dataframe(students_data)
+
+# elif current_page == "Search Jobs":
+#     st.subheader("Search Jobs")
+#     st.dataframe(jobs_data)
+
+# elif current_page == "Search Employers":
+#     st.subheader("Search Employers")
+#     st.dataframe(employers_data)
 
 
