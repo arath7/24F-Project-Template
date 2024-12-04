@@ -8,6 +8,7 @@ from api.backend.jobs_routes import jobs
 from api.backend.review_routes import review
 from api.backend.employer_routes import employer
 from api.backend.flagged_content_routes import flagged_content
+from api.backend.administration_routes import admin
 
 import os
 from dotenv import load_dotenv
@@ -51,6 +52,7 @@ def create_app():
     app.register_blueprint(review, url_prefix='/r')
     app.register_blueprint(employer, url_prefix='/e')
     app.register_blueprint(flagged_content, url_prefix='/fr')
+    app.register_blueprint(admin, url_prefix='/a')
 
     # Don't forget to return the app object
     return app
