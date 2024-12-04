@@ -18,16 +18,15 @@ def StudentPageNav():
     st.sidebar.page_link("pages/student_home.py", label="Search For Jobs", icon="🔍")
     st.sidebar.page_link("pages/student_profile.py", label="Profile", icon="🙂️")
     st.sidebar.page_link("pages/write_review.py", label="Write a Review️", icon="✏️")
-    st.sidebar.page_link("pages/reviews.py", label="Reviews", icon="📝")
     st.sidebar.page_link("pages/employers.py", label="Employers", icon="🏢")
 
 
 #### ------------------------ System Admin Role ------------------------
 def AdminPageNav():
     st.sidebar.page_link("pages/statistics.py", label="Current Statistics", icon="🖥️")
-    st.sidebar.page_link("pages/reviews.py", label="Reviews", icon="📝")
+    st.sidebar.page_link("pages/flagreviews.py", label="Reviews", icon="📝")
     st.sidebar.page_link("pages/job_details.py", label="Jobs", icon="💼")
-    st.sidebar.page_link("pages/employers.py", label="Employers", icon="🏢")
+    st.sidebar.page_link("pages/employers_admin.py", label="Employers", icon="🏢")
 
 
 # --------------------------------Links Function -----------------------------------------------
