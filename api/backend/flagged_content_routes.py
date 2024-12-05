@@ -51,10 +51,12 @@ def add_flagged_content():
     current_app.logger.info(the_data)
 
     reviewID = the_data['ReviewID']
+    adminID = the_data['AdminID']
     reason = the_data['ReasonSubmitted']
+    date = the_data['DateFlagged']
 
-    query = f'''INSERT INTO Flagged_Content (ReviewID, ReasonSubmitted)
-                VALUES ('{reviewID}', '{reason}')'''
+    query = f'''INSERT INTO Flagged_Content (ReviewID, adminID, ReasonSubmitted, DateFlagged)
+                VALUES ('{reviewID}', '{adminID}', '{reason}', '{date}')'''
     current_app.logger.info(query)
 
     cursor = db.get_db().cursor()
