@@ -37,14 +37,11 @@ def add_new_job():
     # collecting data from the request object 
     the_data = request.json
     current_app.logger.info(the_data)
-
-    #extracting the variable
-    JobCategoryID = the_data['JobCategoryID']
     Name = the_data['Name']
     
     
-    query = f''' INSERT INTO JobCategory (JobCategoryID, Name)
-      VALUES ('{JobCategoryID}', '{Name}') 
+    query = f''' INSERT INTO JobCategory (Name)
+      VALUES ('{Name}') 
     '''
     
     current_app.logger.info(query)
