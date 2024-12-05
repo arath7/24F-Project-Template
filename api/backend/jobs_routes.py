@@ -46,10 +46,9 @@ def add_new_job():
     numOpenings = the_data['numOpenings']
     returnOffers = the_data['returnOffers']
     Salary = the_data['Salary']
-    numReviews = the_data['numReviews']
     
-    query = f''' INSERT INTO Job (employerID, JobCategoryID, Name, Description, numOpenings, returnOffers, Salary, numReviews)
-      VALUES ('{employerID}', '{JobCategoryID}', '{Name}', '{Description}', '{numOpenings}', '{returnOffers}', '{Salary}', '{numReviews}') 
+    query = f''' INSERT INTO Job (employerID, JobCategoryID, Name, Description, numOpenings, returnOffers, Salary)
+      VALUES ('{employerID}', '{JobCategoryID}', '{Name}', '{Description}', '{numOpenings}', '{returnOffers}', '{Salary}') 
     '''
     
     current_app.logger.info(query)

@@ -19,7 +19,7 @@ admin = Blueprint('admin', __name__)
 @admin.route('/admin/return_offer_percentage', methods=['GET'])
 def get_return_offer_percentage():
     cursor = db.get_db().cursor()
-    cursor.execute('''SELECT COUNT(JobID) FROM Job WHERE returnOffers = 1''')
+    cursor.execute('''SELECT COUNT(JobID) FROM Job WHERE returnOffers = TRUE''')
 
 
     totalOffers = cursor.fetchone()["COUNT(JobID)"]

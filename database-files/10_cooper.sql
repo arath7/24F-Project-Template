@@ -54,7 +54,6 @@ CREATE TABLE Job
    numOpenings      INT          NOT NULL,
    returnOffers     INT          NOT NULL,
    Salary           DOUBLE       NOT NULL,
-   numReviews       INT          NOT NULL, -- update when reviews are added
    AggregatedReview TEXT, -- need to cascade and make later
    Rating           INT, -- cascade and make later
    FOREIGN KEY (JobCategoryID) REFERENCES JobCategory (JobCategoryID),
