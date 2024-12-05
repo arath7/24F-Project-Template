@@ -88,7 +88,10 @@ def get_total_employers():
 @admin.route('/admin/jobs_by_category', methods=['GET'])
 def get_jobs_by_category():
     cursor = db.get_db().cursor()
-    cursor.execute('''SELECT category, COUNT(JobID) FROM Job GROUP BY category''')
+    cursor.execute('''SELECT jc.Name, COUNT(j.JobID) 
+    FROM Job j
+    JOIN JobCategory jc ON j.JobCategoryID = jc.JobCategoryID
+    GROUP BY jc.Name''')
 
     theData = cursor.fetchall()
 

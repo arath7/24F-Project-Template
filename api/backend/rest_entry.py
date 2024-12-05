@@ -10,6 +10,7 @@ from backend.employer_routes import employer
 from backend.students_routes import students
 from backend.flagged_content_routes import flagged_content
 from backend.administration_routes import admin
+from backend.job_category_routes import job_category
 
 import os
 from dotenv import load_dotenv
@@ -50,6 +51,7 @@ def create_app():
     app.register_blueprint(customers, url_prefix='/c')
     app.register_blueprint(products, url_prefix='/p')
     app.register_blueprint(jobs, url_prefix='/j')
+    app.register_blueprint(job_category, url_prefix='/jc')
     app.register_blueprint(review, url_prefix='/r')
     app.register_blueprint(employer, url_prefix='/e')
     app.register_blueprint(students, url_prefix='/s')

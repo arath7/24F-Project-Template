@@ -73,6 +73,7 @@ def get_customer(JobCategoryID):
     the_response.status_code = 200
     return the_response
 
+
 #------------------------------------------------------------
 #Update an existing job category with a particular jobCategoryID
 @job_category.route('/jobCategory/<JobCategoryID>', methods=['PUT'])
