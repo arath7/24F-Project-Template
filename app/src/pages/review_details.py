@@ -4,9 +4,11 @@ import requests
 import streamlit as st
 
 from modules.nav import SideBarLinks
+from modules.nav import Header
 
 SideBarLinks()
 
+Header()
 
 review = st.session_state.selected_review
 position = st.session_state.selected_position
@@ -17,20 +19,6 @@ if st.button("← Back to Job"):
 col1, col2 = st.columns([1, 3])
 
 employer = requests.get(f'http://api:4000/e/employer/{position["employerID"]}').json()[0]['Name']
-
-
-
-st.markdown("""
-    <style>
-        .progress {
-            background-color: #d3d3d3 !important;  /* Light gray background */
-        }
-        .progress > div {
-            background-color: #4CAF50 !important;  /* Green color for the progress bar */
-        }
-    </style>
-""", unsafe_allow_html=True)
-
 
 
 # Display review data without allowing edits

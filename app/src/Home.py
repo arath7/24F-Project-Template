@@ -14,13 +14,14 @@ logger = logging.getLogger(__name__)
 # as SideBarLinks function from src/modules folder
 import streamlit as st
 from modules.nav import SideBarLinks
+from modules.nav import Header
 
 # streamlit supports reguarl and wide layout (how the controls
 # are organized/displayed on the screen).
 # st.set_page_config(layout = 'wide')
 
 st.set_page_config(page_title="CO-OPer Rates", layout="wide")
-st.markdown("<h1 style='text-align: center; color: red;'>CO-OPer Rates</h1>", unsafe_allow_html=True)
+Header()
 
 # If a user is at this page, we assume they are not
 # authenticated.  So we change the 'authenticated' value
@@ -64,7 +65,7 @@ if st.button("Act as Penny, a student who completed a co-op 👩‍🎓",
 
 
 
-if st.button("Act as joe, a admin 👩‍🎓",
+if st.button("Act as joe, a admin 👷‍♂️",
              type = 'primary',
              use_container_width=True ):
     st.session_state['authenticated'] = True

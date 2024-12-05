@@ -14,7 +14,26 @@ showSidebarNavigation = false
 
 [theme]
 # Setting some basic config options related to the theme of the app
-base="light"
-primaryColor="#6550e6"
-font="monospace"
+#
+#primaryColor="#cb4b16"
+#backgroundColor="#002b36"
+#secondaryBackgroundColor="#586e75"
+#textColor="#eee8d5"
+#font="Sans serif"
+
+#primaryColor = "#268BD2"  # Blue (used for buttons, highlights)
+#backgroundColor = "#FDF6E3"  # Light background color
+#secondaryBackgroundColor = "#EEE8D5"  # Slightly darker background (for cards, containers)
+#textColor = "#657B83"  # Base text color (dark grayish-blue)
+#font = "sans serif"
+
+primaryColor = "#e26c5c"
+backgroundColor = "#E8F9F2"  # Light pastel background
+secondaryBackgroundColor = "#D1EAE1"  # A subtle pastel green for secondary background
+textColor = "#2D4D43"  # Darker greenish color for text
+font = "mono"  # Keeping the mono font style as requested
+
+
+
+
 

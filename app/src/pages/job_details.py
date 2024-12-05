@@ -5,7 +5,7 @@ logger = logging.getLogger(__name__)
 import streamlit as st
 from streamlit_extras.switch_page_button import switch_page
 from modules.nav import SideBarLinks
-from assets.fakedata import fakedata
+from modules.nav import Header
 from pages.student_home import make_listing
 import requests
 
@@ -40,8 +40,7 @@ if st.session_state.page == "job_details":
     else:
         userstate = position['JobID'] == 0
 
-
-    st.markdown("<h1 style='text-align: center; color: red;'>CO-OPer Rates</h1>", unsafe_allow_html=True)
+    Header()
     if st.button("← Back to Search"):
         st.session_state.page = "student_home"
         st.switch_page("pages/student_home.py")

@@ -4,6 +4,7 @@ import math
 logger = logging.getLogger(__name__)
 import streamlit as st
 from modules.nav import SideBarLinks
+from modules.nav import Header
 import requests
 
 
@@ -46,10 +47,10 @@ def make_listing(pos):
 
 # Main search page logic
 if st.session_state.page == "student_home":
-    st.markdown("<h1 style='text-align: center; color: red;'>CO-OPer Rates</h1>", unsafe_allow_html=True)
+    Header()
     st.subheader(f"Welcome to your Dashboard {st.session_state['first_name']}!")
 
-    search_query = st.text_input("Search", placeholder="Search for companies or positions")
+    search_query = st.text_input("", placeholder="Search for companies or positions")
 
     if search_query:
         filtered_positions = [pos for pos in positions if search_query.lower() in pos["Name"].lower()]
@@ -75,7 +76,7 @@ if st.session_state.page == "student_home":
                         st.session_state.selected_position = position
                         st.switch_page('pages/job_details.py');
 
-                        st.write("____")
+                    st.write("____")
 
                     # st.markdown("""<hr style="height:2px;border:none;color:#333;background-color:#333;" /> """,
                     #             unsafe_allow_html=True)

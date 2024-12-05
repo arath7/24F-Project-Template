@@ -68,9 +68,7 @@ def Student(user):
 
     if reviewsWritten:
         for review in reviewsWritten:
-            st.write(review['JobID'])
             job = requests.get(f'http://api:4000/j/jobs/{review.get("JobID")}').json()[0]
-            st.write(job)
             employerReview = requests.get(f'http://api:4000/e/employer/{job.get("employerID")}').json()[0]
             st.markdown(f'###### Written for {job["Name"]}, {employerReview["Name"]}')
             st.write(review['textReview'])
