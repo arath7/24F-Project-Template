@@ -365,6 +365,7 @@ INSERT INTO Review (StudentNUID, learningOpportunities, workCulture, overallSati
 (100037, 7, 7, 8, 7, 'Good internship with solid exposure to database management.', 37),
 (100038, 9, 8, 9, 9, 'Supportive mentors and engaging tasks in mobile app development.', 38),
 (100039, 10, 9, 10, 10, 'Exceptional mentorship and exposure to autonomous vehicles.', 39),
+(100042, 7, 9, 10, 7, 'The supportive work environment and challenging tasks helped me grow both personally and professionally.', 8),
 (100040, 8, 7, 8, 8, 'Great learning experience in full-stack development.', 40);
 
 

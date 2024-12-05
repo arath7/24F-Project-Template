@@ -49,26 +49,32 @@ for job in pastJobs:
     st.write(job['Name'])
     st.write(f"{job['numReviews']} reviews")
     rating = requests.get(f'http://api:4000/j/jobs/averageRating/{job.get("JobID")}').json()[0]
+    employer = requests.get(f'http://api:4000/e/employer/{job.get("employerID")}').json()[0]
+
     update = (float(rating['AVG(overallSatisfaction)']) / 10)
-    # st.write(update)
+    st.write(f"💼 {employer['Name']}")
     scaledRating = update * 5
     st.write("⭐" * int(scaledRating) + "☆" * math.ceil(5 - scaledRating))
     st.write("___")
 
 
 st.write('### Reviews Written')
-st.write("___")
-pastJobs = requests.get(f'http://api:4000/j/jobs/student/{user.get("NUID")}').json()
+reviewsWritten = requests.get(f'http://api:4000/r/review/student/{user.get("NUID")}').json()
 
-for job in pastJobs:
+for review in reviewsWritten:
 
-    st.write(job['Name'])
-    st.write(f"{job['numReviews']} reviews")
-    rating = requests.get(f'http://api:4000/j/jobs/averageRating/{job.get("JobID")}').json()[0]
-    update = (float(rating['AVG(overallSatisfaction)']) / 10)
+    job = requests.get(f'http://api:4000/j/jobs/{review.get("JobID")}').json()[0]
+    employer = requests.get(f'http://api:4000/e/employer/{review.get("employerID")}').json()[0]
+
+    st.write(f"Written for {job['Name']}, {employer['Name']}")
+    st.write(review['textReview'])
+
+
+    rating = sum([review['learningOpportunities'], review['workCulture'],
+                  review['overallSatisfaction'], review['Mentorship']])
+    update = (rating / 10)
     scaledRating = update * 5
     st.write("⭐" * int(scaledRating) + "☆" * math.ceil(5 - scaledRating))
     st.write("___")
-
 
 
