@@ -1,12 +1,14 @@
 import logging
 import math
 
+
 logger = logging.getLogger(__name__)
 import streamlit as st
-from streamlit_extras.switch_page_button import switch_page
 from modules.nav import SideBarLinks
 from modules.nav import Header
 from pages.student_home import make_listing
+from pages.review_details import deleteReview
+
 import requests
 
 
@@ -28,6 +30,31 @@ if st.session_state['currentUser'] != 'Mark':
         studentjob = None
 else:
     studentjob = None
+
+
+
+
+
+####### SAVE REVIEW function
+def saveReviewButton(review):
+    if st.button("Save Review 📕", key=f'save{review["reviewID"]}'):
+        payload = {
+            "NUID": current_user[0].get('NUID'),
+            "ReviewID": review['reviewID'],
+        }
+        try:
+            # Make the POST request
+            response =  requests.post(f"http://api:4000/r/review/starred", json=payload)
+            # Handle the response
+            if response.status_code == 200:
+                st.success("Successfully added review!")
+            else:
+                st.error(f"Failed to add review. Status code: {response.status_code}")
+                st.write("Response:", response.text)
+
+        except requests.exceptions.RequestException as e:
+            st.error(f"An error occurred: {e}")
+
 
 
 # Job details page logic
@@ -68,6 +95,10 @@ if st.session_state.page == "job_details":
         st.write("")
 
 
+
+
+
+
     filtered_reviews = [rev for rev in reviews if rev['JobID'] == position['JobID']]
 
     # Display individual reviews
@@ -96,15 +127,22 @@ if st.session_state.page == "job_details":
 
                 st.write("⭐" * int(scaledRating) + "☆" * math.ceil(5 - scaledRating))
 
-
+                col11, col12 = st.columns([3, 4])
                 # "View Details" button
-                if st.button(f"View Details", key=f'{review["reviewID"]}'):
-                    st.session_state.page = "review_details"
-                    st.session_state.selected_position = position
-                    st.session_state.selected_review = review
-                    st.switch_page('pages/review_details.py');
+                with col11:
+                    if st.button(f"View Details", key=f'{review["reviewID"]}'):
+                        st.session_state.page = "review_details"
+                        st.session_state['prevPage'] = "job_details"
+                        st.session_state.selected_review = review
+                        st.switch_page('pages/review_details.py');
+                with col12:
+
+                    if review["StudentNUID"] == current_user[0].get('NUID'):
+                        deleteReview(review)
+                    else:
+                        saveReviewButton(review)
+
+
 
 else:
     st.error("No job details found! Please return to the search page.")
-
-

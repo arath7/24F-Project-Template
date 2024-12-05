@@ -66,18 +66,38 @@ def Student(user):
     reviewsWritten = requests.get(f'http://api:4000/r/review/student/{user.get("NUID")}').json()
 
 
+
     if reviewsWritten:
         for review in reviewsWritten:
-            job = requests.get(f'http://api:4000/j/jobs/{review.get("JobID")}').json()[0]
-            employerReview = requests.get(f'http://api:4000/e/employer/{job.get("employerID")}').json()[0]
-            st.markdown(f'###### Written for {job["Name"]}, {employerReview["Name"]}')
-            st.write(review['textReview'])
-            reviewSum = sum([review['learningOpportunities'], review['workCulture'],
-                                   review['overallSatisfaction'], review['Mentorship']])
-            rating = (reviewSum / 10)
-            st.write("⭐" * int(rating) + "☆" * math.ceil(5 - rating))
+            writeReviews(review)
+            # job = requests.get(f'http://api:4000/j/jobs/{review.get("JobID")}').json()[0]
+            # employerReview = requests.get(f'http://api:4000/e/employer/{job.get("employerID")}').json()[0]
+            # st.markdown(f'###### Written for {job["Name"]}, {employerReview["Name"]}')
+            # st.write(review['textReview'])
+            # reviewSum = sum([review['learningOpportunities'], review['workCulture'],
+            #                        review['overallSatisfaction'], review['Mentorship']])
+            # rating = (reviewSum / 10)
+            # st.write("⭐" * int(rating) + "☆" * math.ceil(5 - rating))
 
     else:
         st.markdown(f"<small><i>Nothing yet! 🔧</i></small>", unsafe_allow_html=True)
 
+def writeReviews(review):
+    job = requests.get(f'http://api:4000/j/jobs/{review.get("JobID")}').json()[0]
+    employerReview = requests.get(f'http://api:4000/e/employer/{job.get("employerID")}').json()[0]
+    st.markdown(f'###### Written for {job["Name"]}, {employerReview["Name"]}')
+    st.write(review['textReview'])
+    reviewSum = sum([review['learningOpportunities'], review['workCulture'],
+                     review['overallSatisfaction'], review['Mentorship']])
+    rating = (reviewSum / 10)
+    st.write("⭐" * int(rating) + "☆" * math.ceil(5 - rating))
+
+
+    # "View Details" button
+    if st.button(f"View Details", key=f'{review["reviewID"]}'):
+        st.session_state.page = "review_details"
+        st.session_state['prevPage'] = "student_profile"
+        st.session_state.selected_review = review
+        st.session_state.selected_position = job
+        st.switch_page('pages/review_details.py');
 Student(current)

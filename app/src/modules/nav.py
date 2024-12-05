@@ -21,6 +21,7 @@ def StudentPageNav():
         st.sidebar.page_link("pages/write_review.py", label="Write a Review️", icon="✏️")
 
     st.sidebar.page_link("pages/employers.py", label="Employers", icon="🏢")
+    st.sidebar.page_link("pages/starred_reviews.py", label="StarredReviews", icon="🌟")
 
 
 #### ------------------------ System Admin Role ------------------------

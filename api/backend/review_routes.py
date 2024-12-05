@@ -126,6 +126,24 @@ def delete_review(reviewID):
     response.status_code = 200
     return response
 
+@review.route('/review/starred/<reviewID>', methods=['DELETE'])
+def delete_starred_review(reviewID):
+    cursor = db.get_db().cursor()
+
+    # Use parameterized queries to avoid SQL injection
+    cursor.execute('DELETE FROM Starred_Reviews WHERE reviewID = %s', (reviewID,))
+    db.get_db().commit()
+
+    # Respond with a success message
+    response = make_response("Successfully deleted review")
+    response.status_code = 200
+    return response
+
+
+
+
+
+
 #Get all the reviews written by a student, given the studentNUID
 @review.route('/review/student/<StudentNUID>', methods=['GET'])
 def get_student(StudentNUID):
@@ -152,5 +170,44 @@ def get_job(JobID):
     the_response.status_code = 200
     return the_response
 
-#
+
+#Get all the reviews written for a job, given the JobID
+@review.route('/review/starred/<NUID>', methods=['GET'])
+def get_starred_reviews(NUID):
+    cursor = db.get_db().cursor()
+    cursor.execute('SELECT * FROM Starred_Reviews WHERE NUID = {0}'.format(NUID))
+
+    theData = cursor.fetchall()
+
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
+
+# ------------------------------------------------------------
+# Add a new review to the system
+@review.route('/review/starred', methods=['POST'])
+def add_new_starred_review():
+    # In a POST request, there is a
+    # collecting data from the request object
+    the_data = request.json
+    current_app.logger.info(the_data)
+
+    # extracting the variable
+    StudentNUID = the_data['NUID']
+    ReviewID = the_data['ReviewID']
+
+    query = f''' INSERT INTO Starred_Reviews (ReviewID, NUID) VALUES
+  ('{ReviewID}', '{StudentNUID}');
+    '''
+
+    current_app.logger.info(query)
+    # executing and committing the insert statement
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    db.get_db().commit()
+    response = make_response("Successfully added review")
+    response.status_code = 200
+    return response
+
 
