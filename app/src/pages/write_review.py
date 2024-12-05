@@ -17,7 +17,7 @@ if st.session_state['first_name'] != 'Penny':
     st.stop()
 
 # Set page title
-st.title("🌟 Ashley's Co-op Review Dashboard")
+st.title("🌟 Your Co-op Review Dashboard")
 st.write(f"Hello, {st.session_state['first_name']}! Complete your review for your recent co-op. 📝")
 
 # Fake job reviews (mock data)
@@ -37,7 +37,7 @@ if st.session_state.selected_position == "":
 
 
 else:
-    selected_job_name =  st.selectbox("Writing review for", st.session_state.selected_position['title'])
+    selected_job_name =  st.selectbox("Writing review for", st.session_state.selected_position['Name'])
     selected_review =   selected_review =  {"job_name": selected_job_name, "employer": "Tech Corp", "learning_opportunities": 0, "work_culture": 0, "overall_satisfaction": 0, "mentorship": 0, "review_text": ""}
 
 # Get selected review data

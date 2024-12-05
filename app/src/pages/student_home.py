@@ -1,4 +1,6 @@
 import logging
+import math
+
 logger = logging.getLogger(__name__)
 import streamlit as st
 from modules.nav import SideBarLinks
@@ -11,30 +13,40 @@ st.set_page_config(page_title="CO-OPer Rates", layout="wide")
 SideBarLinks()
 st.session_state.selected_position = ""
 
+if st.session_state['first_name'] == "Penny":
+    penny = requests.get(f'http://api:4000/s/Student/100042').json()
+    # st.write(penny)
+    st.session_state['currentUser'] = penny
+
+
 
 # Simulated data
 positions = requests.get(f'http://api:4000/j/jobs').json()
-# st.dataframe(positions)
+# st.dataframe(st.session_state['currentUser'])
 
 # Initialize session state
 if "page" not in st.session_state:
     st.session_state.page = "student_home"
 
 
+
+
 def make_listing(pos):
-    st.markdown(f"**{pos['Name']}**")
+    employer = requests.get(f'http://api:4000/e/employer/{pos["employerID"]}').json()[0]['Name']
+
+    st.write(pos['Name'])
     st.write(f"{pos['numReviews']} reviews")
-    # st.write(f"📍 {position['employer']}")
+    st.write(f"💼 {employer}")
 
-    if pos['Rating'] is None:
-        st.markdown("""<p style='font-size:14px;'>✩✩✩✩✩</p>""", unsafe_allow_html=True)
-    else:
-        st.write("⭐" * int(pos["Rating"]) + "☆" * (5 - int(pos["Rating"])))
-
+    rating = requests.get(f'http://api:4000/j/jobs/averageRating/{pos.get("JobID")}').json()[0]
+    update = (float(rating['AVG(overallSatisfaction)']) / 10)
+    scaledRating = update * 5
+    st.write("⭐" * int(scaledRating) + "☆" * math.ceil(5 - scaledRating))
 
 # Main search page logic
 if st.session_state.page == "student_home":
     st.markdown("<h1 style='text-align: center; color: red;'>CO-OPer Rates</h1>", unsafe_allow_html=True)
+    st.subheader(f"Welcome to your Dashboard {st.session_state['first_name']}!")
 
     search_query = st.text_input("Search", placeholder="Search for companies or positions")
 

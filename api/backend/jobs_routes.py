@@ -154,6 +154,28 @@ def get_employer_name(jobID):
     the_response.status_code = 200
     return the_response
 
+
+# Get employer name from a jobID
+@jobs.route('/jobs/student/<NUID>', methods=['GET'])
+def get_student_jobs(NUID):
+    current_app.logger.info('GET /jobs/employer/<jobID> route')
+    cursor = db.get_db().cursor()
+    query = '''
+         SELECT * 
+         FROM Job j 
+         JOIN StudentJobs sj ON j.JobID = sj.jobID 
+         JOIN Student s ON s.NUID = sj.NUID 
+         WHERE s.NUID = %s
+     '''
+    cursor.execute(query, (NUID,))
+
+    theData = cursor.fetchall()
+
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
+
 #Get average overall satisfaction rating for a job with a particular jobID
 @jobs.route('/jobs/averageRating/<jobID>', methods=['GET'])
 def get_job_average_rating(jobID):
@@ -165,5 +187,6 @@ def get_job_average_rating(jobID):
     
     the_response = make_response(jsonify(theData))
     the_response.status_code = 200
+    return the_response
     return the_response
 

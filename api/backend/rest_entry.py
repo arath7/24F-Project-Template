@@ -7,6 +7,7 @@ from backend.simple.simple_routes import simple_routes
 from backend.jobs_routes import jobs
 from backend.review_routes import review
 from backend.employer_routes import employer
+from backend.students_routes import students
 from backend.flagged_content_routes import flagged_content
 from backend.administration_routes import admin
 
@@ -51,6 +52,7 @@ def create_app():
     app.register_blueprint(jobs, url_prefix='/j')
     app.register_blueprint(review, url_prefix='/r')
     app.register_blueprint(employer, url_prefix='/e')
+    app.register_blueprint(students, url_prefix='/s')
     app.register_blueprint(flagged_content, url_prefix='/fr')
     app.register_blueprint(admin, url_prefix='/a')
 

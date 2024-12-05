@@ -1,4 +1,6 @@
 import logging
+import math
+
 logger = logging.getLogger(__name__)
 import streamlit as st
 from streamlit_extras.switch_page_button import switch_page
@@ -28,8 +30,9 @@ if st.session_state.page == "job_details":
     col1, col2 = st.columns([1, 3])
 
     with col2:
-
+        employer = requests.get(f'http://api:4000/e/employer/{position["employerID"]}').json()[0]['Name']
         make_listing(position)
+        st.write(f"💼 {employer}")
 
         if st.session_state['first_name'] == 'Penny':
             st.button("I have worked as this position", disabled=True)
@@ -62,7 +65,11 @@ if st.session_state.page == "job_details":
 
                 # st.write("hi")
 
-                st.write(review["StudentNUID"])
+                author = requests.get(f'http://api:4000/s/Student/{review["StudentNUID"]}').json()[0]
+
+                if st.page_link("pages/student_viewer.py", label=f"**{author['firstName']}**") :
+                    st.session_state["visiting_student"] = author
+
                 st.write(review["textReview"])
 
                 ratings = [review["learningOpportunities"], review["workCulture"], review["overallSatisfaction"],
@@ -71,7 +78,7 @@ if st.session_state.page == "job_details":
                 averageRating = sumRating/40
                 scaledRating = (averageRating * 5)
 
-                st.write("⭐" * int(scaledRating) + "☆" * int(5 - scaledRating))
+                st.write("⭐" * int(scaledRating) + "☆" * math.ceil(5 - scaledRating))
 else:
     st.error("No job details found! Please return to the search page.")
 

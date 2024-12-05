@@ -19,9 +19,11 @@ else:
     st.stop()
 
 # Display employer details
-st.write(f"Name: {employer_details['Name']}")
-st.write(f"Email: {employer_details['Email']}")
-st.write(f"Address: {employer_details['Address']}")
-st.write(f"Phone Number: {employer_details['phoneNumber']}")
-st.write(f"Number of Jobs: {employer_details['numJobs']}")
+for employer in employer_details:
+    st.markdown(f"Name: {employer['Name']}")
+    st.write(f"Email: {employer['Email']}")
+    st.write(f"Address: {employer['Address']}")
+    st.write(f"Phone Number: {employer['phoneNumber']}")
+    st.write(f"Number of Jobs: {employer['numJobs']}")
+    st.write(f"__________")
 
