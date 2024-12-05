@@ -17,6 +17,20 @@ current = st.session_state['currentUser'][0]
 # st.title(f'Welcome, {user["firstName"]}!')
 st.title(f'Welcome, {current.get("firstName")}!')
 
+
+
+def writeReviews(review):
+    job = requests.get(f'http://api:4000/j/jobs/{review.get("JobID")}').json()[0]
+    employerReview = requests.get(f'http://api:4000/e/employer/{job.get("employerID")}').json()[0]
+    st.markdown(f'###### Written for {job["Name"]}, {employerReview["Name"]}')
+    st.write(review['textReview'])
+    reviewSum = sum([review['learningOpportunities'], review['workCulture'],
+                     review['overallSatisfaction'], review['Mentorship']])
+    rating = (reviewSum / 10)
+    st.write("⭐" * int(rating) + "☆" * math.ceil(5 - rating))
+
+
+
 def Student(user):
     st.write(f'###### Name:  {user.get("firstName")} {user.get("lastName")}')
 
@@ -49,7 +63,6 @@ def Student(user):
     if pastJobs:
         for job in pastJobs:
             st.markdown(f'###### {job["Name"]}')
-            st.markdown(f"<small><i>{job['numReviews']} reviews</i></small>", unsafe_allow_html=True)
             rating = requests.get(f'http://api:4000/j/jobs/averageRating/{job.get("JobID")}').json()[0]
             employer = requests.get(f'http://api:4000/e/employer/{job.get("employerID")}').json()[0]
 
@@ -82,15 +95,6 @@ def Student(user):
     else:
         st.markdown(f"<small><i>Nothing yet! 🔧</i></small>", unsafe_allow_html=True)
 
-def writeReviews(review):
-    job = requests.get(f'http://api:4000/j/jobs/{review.get("JobID")}').json()[0]
-    employerReview = requests.get(f'http://api:4000/e/employer/{job.get("employerID")}').json()[0]
-    st.markdown(f'###### Written for {job["Name"]}, {employerReview["Name"]}')
-    st.write(review['textReview'])
-    reviewSum = sum([review['learningOpportunities'], review['workCulture'],
-                     review['overallSatisfaction'], review['Mentorship']])
-    rating = (reviewSum / 10)
-    st.write("⭐" * int(rating) + "☆" * math.ceil(5 - rating))
 
 
     # "View Details" button

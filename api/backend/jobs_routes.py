@@ -101,22 +101,6 @@ def update_job(jobID):
     # Extract values from the_data to match the parameterized query
     values = list(the_data.values())
     values.append(jobID)  # Add JobID for the WHERE clause
-
-    # #extracting the variable
-    # employerID = the_data['employerID']
-    # JobCategoryID = the_data['JobCategoryID']
-    # Name = the_data['Name']
-    # Description = the_data['Description']
-    # numOpenings = the_data['numOpenings']
-    # returnOffers = the_data['returnOffers']
-    # Salary = the_data['Salary']
-    # numReviews = the_data['numReviews']
-    
-    # query = f''' UPDATE Job
-    #   SET employerID = '{employerID}', JobCategoryID = '{JobCategoryID}', Name = '{Name}', Description = '{Description}', numOpenings = '{numOpenings}', returnOffers = '{returnOffers}', Salary = '{Salary}', numReviews = '{numReviews}'
-    #   WHERE JobID = {jobID}
-    # '''
-    
     current_app.logger.info(query)
 
     # executing and committing the insert statement 
@@ -161,7 +145,7 @@ def get_student_jobs(NUID):
     current_app.logger.info('GET /jobs/student/<NUID> route')
     cursor = db.get_db().cursor()
     query = '''
-         SELECT j.JobID, j.employerID, j.Name
+         SELECT j.JobID, j.employerID, j.Name, j.numReviews
          FROM Job j 
          JOIN StudentJobs sj ON j.JobID = sj.jobID 
          JOIN Student s ON s.NUID = sj.NUID 

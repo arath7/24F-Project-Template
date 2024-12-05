@@ -7,7 +7,6 @@ import streamlit as st
 from modules.nav import SideBarLinks
 from modules.nav import Header
 from pages.student_home import make_listing
-from pages.review_details import deleteReview
 
 import requests
 
@@ -18,7 +17,7 @@ SideBarLinks()
 
 reviews = requests.get(f'http://api:4000/r/review').json()
 
-
+st.session_state['currentPage'] = 'job_details'
 
 if st.session_state['currentUser'] != 'Mark':
     current_user = st.session_state['currentUser']
@@ -55,6 +54,32 @@ def saveReviewButton(review):
         except requests.exceptions.RequestException as e:
             st.error(f"An error occurred: {e}")
 
+def deleteReview(review):
+    if st.button("Delete 🗑️", key=f'Delete{review["reviewID"]}',  type ='primary'):
+        try:
+            # Make the POST request
+            response = requests.delete(f"http://api:4000/r/review/{review['reviewID']}")
+            st.write("running!")
+            # Handle the response
+            if response.status_code == 200:
+                st.success("Successfully added review!")
+            else:
+                st.error(f"Failed to add review. Status code: {response.status_code}")
+                st.write("Response:", response.text)
+
+        except requests.exceptions.RequestException as e:
+            st.error(f"An error occurred: {e}")
+
+
+
+def editReview(review):
+    if st.button("Edit ✏️", key=f'Edit{review["reviewID"]}',  type ='secondary'):
+        st.session_state['review_writing'] = 'editing'
+        st.session_state.page = "write_review"
+        st.session_state['prevPage'] = st.session_state['currentPage']
+        st.session_state.selected_review = review
+        st.switch_page('pages/write_review.py')
+
 
 
 # Job details page logic
@@ -63,7 +88,7 @@ if st.session_state.page == "job_details":
 
 
     if studentjob:
-        userstate = (position['JobID'] == studentjob['jobID'])
+        userstate = (position['JobID'] == studentjob['JobID'])
     else:
         userstate = position['JobID'] == 0
 
@@ -90,6 +115,7 @@ if st.session_state.page == "job_details":
 
     if userstate:
         if st.button("Leave a review →", type = 'primary') :
+            st.session_state['review_writing'] = 'creating'
             st.switch_page("pages/write_review.py")
     else :
         st.write("")
@@ -138,6 +164,7 @@ if st.session_state.page == "job_details":
                 with col12:
 
                     if review["StudentNUID"] == current_user[0].get('NUID'):
+                        editReview(review)
                         deleteReview(review)
                     else:
                         saveReviewButton(review)

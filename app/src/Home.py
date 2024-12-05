@@ -60,6 +60,7 @@ if st.button("Act as Penny, a student who completed a co-op 👩‍🎓",
     st.session_state['authenticated'] = True
     st.session_state['role'] = 'student'
     st.session_state['first_name'] = 'Penny'
+    st.session_state['review_writing'] = 'creating'
     st.switch_page('pages/student_home.py')
 
 

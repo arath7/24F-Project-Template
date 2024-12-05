@@ -37,7 +37,6 @@ def make_listing(pos):
     employer = requests.get(f'http://api:4000/e/employer/{pos["employerID"]}').json()[0]['Name']
 
     st.write(pos['Name'])
-    st.markdown(f"<small><i>{pos['numReviews']} reviews</i></small>", unsafe_allow_html=True)
     st.write(f"💼 {employer}")
 
     rating = requests.get(f'http://api:4000/j/jobs/averageRating/{pos.get("JobID")}').json()[0]
