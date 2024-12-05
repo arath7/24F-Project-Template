@@ -80,37 +80,42 @@ def get_employer(employerID):
 #Update an existing employer's info with a particular employerID
 @employer.route('/employer/<employerID>', methods=['PUT'])
 def update_employer(employerID):
-
     the_data = request.json
     current_app.logger.info(the_data)
 
-    # Dynamically build the SET clause of the query
+    # Validate fields
+    allowed_fields = {"Name", "Email", "Address", "phoneNumber", "numJobs"}  # Define allowed columns
     fields_to_update = []
+    values = []
+
     for field, value in the_data.items():
-        # Avoid SQL injection by using parameterized queries
-        fields_to_update.append(f"{field} = %s")
+        if field in allowed_fields:
+            fields_to_update.append(f"{field} = %s")
+            values.append(value)
+        else:
+            current_app.logger.warning(f"Ignoring invalid field: {field}")
 
-    # Join the fields to create the SET clause
+    # Check if there are valid fields to update
+    if not fields_to_update:
+        response = make_response({"error": "No valid fields to update"}, 400)
+        return response
+
+    # Build query
     set_clause = ", ".join(fields_to_update)
-
-    # Prepare the SQL query
     query = f"UPDATE Employer SET {set_clause} WHERE employerID = %s"
+    values.append(employerID)  # Add employerID for WHERE clause
 
-    # Extract values from the_data to match the parameterized query
-    values = list(the_data.values())
-    values.append(employerID)  # Add JobID for the WHERE clause
-
-    
     current_app.logger.info(query)
 
-    # executing and committing the insert statement 
+
     cursor = db.get_db().cursor()
-    cursor.execute(query)
+    cursor.execute(query, values)
     db.get_db().commit()
-    
+
+    # Success response
     response = make_response("Successfully updated employer")
-    response.status_code = 200
     return response
+
 
 #Delete an existing employer with a particular employerID
 @employer.route('/employer/<employerID>', methods=['DELETE'])
