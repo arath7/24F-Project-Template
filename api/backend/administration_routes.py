@@ -19,17 +19,20 @@ admin = Blueprint('admin', __name__)
 @admin.route('/admin/return_offer_percentage', methods=['GET'])
 def get_return_offer_percentage():
     cursor = db.get_db().cursor()
-    cursor.execute('''SELECT COUNT(JobID) FROM Job WHERE return_offer = 1''')
+    cursor.execute('''SELECT COUNT(JobID) FROM Job WHERE returnOffers = 1''')
 
 
-    totalOffers = cursor.fetchall()
+    totalOffers = cursor.fetchone()["COUNT(JobID)"]
 
     cursor.execute('''SELECT COUNT(JobID) FROM Job''')
-    totalJobs = cursor.fetchall()
+    totalJobs = cursor.fetchone()["COUNT(JobID)"]
 
-    theData = totalOffers[0][0]/totalJobs[0][0]
+    if totalJobs == 0:
+        theData = 0
+    else:
+        theData = (totalOffers / totalJobs) * 100
 
-    the_response = make_response(jsonify(theData))
+    the_response = make_response({"returnOfferPercentage" : totalJobs})
     the_response.status_code = 200
     return the_response
 
@@ -37,7 +40,7 @@ def get_return_offer_percentage():
 @admin.route('/admin/total_students', methods=['GET'])
 def get_total_students():
     cursor = db.get_db().cursor()
-    cursor.execute('''SELECT COUNT(studentID) FROM Student''')
+    cursor.execute('''SELECT COUNT(NUID) FROM Student''')
 
     theData = cursor.fetchall()
 

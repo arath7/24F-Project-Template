@@ -24,23 +24,23 @@ if "page" not in st.session_state:
 #              use_container_width=True):
 #   results = requests.get(f'http://api:4000/u/users/100042').json()
 #   st.write(results)
-
+#
 # Simulated data
 # jobs = fakedata.get('Job') # routes to get all jobs
 # employers = fakedata.get('Employer') # routes to get all employers
-
-
+#
+#
 # # Function to get job titles and employer names
 # def get_job_employer_info(jobs, employers):
 #     job_employer_info = []
 #     # Create a dictionary for fast lookup of employers by employerID
 #     employer_dict = {employer["employerID"]: employer["Name"] for employer in employers}
-
+#
 #     # For each job, get the job title and employer name using the employerID
 #     for job in jobs:
 #         employer_name = employer_dict.get(job["employerID"], "Unknown Employer")
 #         job_employer_info.append({"title": job["Name"], "employer": employer_name, "rating": job["Rating"], "reviews": job["numReviews"], "description": job["Description"]})
-
+#
 #     return job_employer_info
 
 st.title('Admin Dashboard')

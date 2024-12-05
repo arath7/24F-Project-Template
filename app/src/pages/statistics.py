@@ -18,6 +18,9 @@ routes = {
 
 }
 
+
+
+
 stats = {}
 for key, route in routes.items():
     response = requests.get(route)

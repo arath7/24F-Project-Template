@@ -69,7 +69,7 @@ if st.button("Act as joe, a admin 👷‍♂️",
              type = 'primary',
              use_container_width=True ):
     st.session_state['authenticated'] = True
-    st.session_state['role'] = 'administator'
+    st.session_state['role'] = 'administrator'
     st.session_state['first_name'] = 'Joe'
     st.switch_page('pages/admin_dashboard.py')
 
