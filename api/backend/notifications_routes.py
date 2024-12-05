@@ -11,7 +11,7 @@ from backend.db_connection import db
 #------------------------------------------------------------
 # Create a new Blueprint object, which is a collection of 
 # routes.
-notifications = Blueprint('Notifications', __name__)
+notifications = Blueprint('notifications', __name__)
 
 #------------------------------------------------------------
 # Create a notification for a specific user

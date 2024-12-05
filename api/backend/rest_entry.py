@@ -11,6 +11,7 @@ from backend.students_routes import students
 from backend.flagged_content_routes import flagged_content
 from backend.administration_routes import admin
 from backend.job_category_routes import job_category
+from backend.notifications_routes import notifications
 
 import os
 from dotenv import load_dotenv
@@ -57,6 +58,7 @@ def create_app():
     app.register_blueprint(students, url_prefix='/s')
     app.register_blueprint(flagged_content, url_prefix='/fr')
     app.register_blueprint(admin, url_prefix='/a')
+    app.register_blueprint(notifications, url_prefix='/n')
 
     # Don't forget to return the app object
     return app
