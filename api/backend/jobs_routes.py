@@ -155,13 +155,13 @@ def get_employer_name(jobID):
     return the_response
 
 
-# Get employer name from a jobID
+# Get jobs a student has done or is doing
 @jobs.route('/jobs/student/<NUID>', methods=['GET'])
 def get_student_jobs(NUID):
-    current_app.logger.info('GET /jobs/employer/<jobID> route')
+    current_app.logger.info('GET /jobs/student/<NUID> route')
     cursor = db.get_db().cursor()
     query = '''
-         SELECT * 
+         SELECT j.JobID, j.employerID, j.Name
          FROM Job j 
          JOIN StudentJobs sj ON j.JobID = sj.jobID 
          JOIN Student s ON s.NUID = sj.NUID 
