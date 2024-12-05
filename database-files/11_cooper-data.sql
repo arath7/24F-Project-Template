@@ -257,6 +257,7 @@ VALUES
     (100060, '1999-02-26', 'Holly', 'Walker', 'holly.walker60@example.com', 'Arts', 'Fashion Design', 2022, FALSE),
     (100061, '2003-04-09', 'Ian', 'Hall', 'ian.hall61@example.com', 'Engineering', 'Computer Engineering', 2026, TRUE),
     (100062, '2000-10-24', 'Julia', 'Scott', 'julia.scott62@example.com', 'Law', 'Judicial Studies', 2023, FALSE),
+    (100064, '2000-05-15', 'Mark', 'Smith', 'mark.smith@example.com', 'University of Example', 'Electrical Engineering', 2024, TRUE),
     (100063, '2001-12-08', 'Kyle', 'Adams', 'kyle.adams63@example.com', 'Science', 'Genetics', 2024, TRUE);
 
 INSERT INTO StudentJobs (NUID, jobID, StartDate, EndDate) VALUES
@@ -322,6 +323,7 @@ INSERT INTO StudentJobs (NUID, jobID, StartDate, EndDate) VALUES
 (100060, 20, '2022-04-15', '2022-09-15'),
 (100061, 21, '2021-02-15', '2021-07-15'),
 (100062, 22, '2023-07-01', '2023-12-01'),
+(100042, 8, '2023-07-01', '2023-12-01'),
 (100063, 23, '2020-11-01', '2021-04-01');
 
 

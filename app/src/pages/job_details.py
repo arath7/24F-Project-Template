@@ -16,14 +16,32 @@ SideBarLinks()
 
 reviews = requests.get(f'http://api:4000/r/review').json()
 
-# st.dataframe(reviews);
+
+
+if st.session_state['currentUser'] != 'Mark':
+    current_user = st.session_state['currentUser']
+    nuid = current_user[0].get('NUID')
+    if nuid:
+        student_jobs = requests.get(f"http://api:4000/j/jobs/student/{nuid}").json()
+        studentjob = student_jobs[0] if student_jobs else None
+    else:
+        studentjob = None
+else:
+    studentjob = None
+
 
 # Job details page logic
 if st.session_state.page == "job_details":
     position = st.session_state.selected_position
 
-    st.markdown("<h1 style='text-align: center; color: red;'>CO-OPer Rates</h1>", unsafe_allow_html=True)
 
+    if studentjob:
+        userstate = (position['JobID'] == studentjob['jobID'])
+    else:
+        userstate = position['JobID'] == 0
+
+
+    st.markdown("<h1 style='text-align: center; color: red;'>CO-OPer Rates</h1>", unsafe_allow_html=True)
     if st.button("← Back to Search"):
         st.session_state.page = "student_home"
         st.switch_page("pages/student_home.py")
@@ -32,9 +50,8 @@ if st.session_state.page == "job_details":
     with col2:
         employer = requests.get(f'http://api:4000/e/employer/{position["employerID"]}').json()[0]['Name']
         make_listing(position)
-        st.write(f"💼 {employer}")
 
-        if st.session_state['first_name'] == 'Penny':
+        if userstate:
             st.button("I have worked as this position", disabled=True)
 
         else:
@@ -45,7 +62,7 @@ if st.session_state.page == "job_details":
     st.write(f"Number of open positions:", position['numOpenings'])
     st.write(f"Average return offers:", position['returnOffers'])
 
-    if st.session_state['first_name'] == 'Penny':
+    if userstate:
         if st.button("Leave a review →", type = 'primary') :
             st.switch_page("pages/write_review.py")
     else :
@@ -79,6 +96,15 @@ if st.session_state.page == "job_details":
                 scaledRating = (averageRating * 5)
 
                 st.write("⭐" * int(scaledRating) + "☆" * math.ceil(5 - scaledRating))
+
+
+                # "View Details" button
+                if st.button(f"View Details", key=f'{review["reviewID"]}'):
+                    st.session_state.page = "review_details"
+                    st.session_state.selected_position = position
+                    st.session_state.selected_review = review
+                    st.switch_page('pages/review_details.py');
+
 else:
     st.error("No job details found! Please return to the search page.")
 

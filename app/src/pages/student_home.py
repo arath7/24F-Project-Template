@@ -17,12 +17,13 @@ if st.session_state['first_name'] == "Penny":
     penny = requests.get(f'http://api:4000/s/Student/100042').json()
     # st.write(penny)
     st.session_state['currentUser'] = penny
-
+else:
+    mark = requests.get(f'http://api:4000/s/Student/100064').json()
+    st.session_state['currentUser'] = mark
 
 
 # Simulated data
 positions = requests.get(f'http://api:4000/j/jobs').json()
-# st.dataframe(st.session_state['currentUser'])
 
 # Initialize session state
 if "page" not in st.session_state:
@@ -35,7 +36,7 @@ def make_listing(pos):
     employer = requests.get(f'http://api:4000/e/employer/{pos["employerID"]}').json()[0]['Name']
 
     st.write(pos['Name'])
-    st.write(f"{pos['numReviews']} reviews")
+    st.markdown(f"<small><i>{pos['numReviews']} reviews</i></small>", unsafe_allow_html=True)
     st.write(f"💼 {employer}")
 
     rating = requests.get(f'http://api:4000/j/jobs/averageRating/{pos.get("JobID")}').json()[0]
@@ -64,7 +65,7 @@ if st.session_state.page == "student_home":
             with st.container():
                 col1, col2 = st.columns([1, 4])
                 with col1:
-                    st.write("📘")
+                    st.write(f"📘 {position['JobID']}")
                 with col2:
                     make_listing(position)
 
@@ -74,5 +75,7 @@ if st.session_state.page == "student_home":
                         st.session_state.selected_position = position
                         st.switch_page('pages/job_details.py');
 
-                    st.markdown("""<hr style="height:2px;border:none;color:#333;background-color:#333;" /> """,
-                                unsafe_allow_html=True)
+                        st.write("____")
+
+                    # st.markdown("""<hr style="height:2px;border:none;color:#333;background-color:#333;" /> """,
+                    #             unsafe_allow_html=True)

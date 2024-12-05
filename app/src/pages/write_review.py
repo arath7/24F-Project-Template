@@ -13,7 +13,15 @@ SideBarLinks()
 
 # Set the current user
 if st.session_state['first_name'] != 'Penny':
-    st.write("You must select a persona first!")
+    st.text("")
+    st.text("")
+    st.text("")
+    st.text("")
+    st.text("")
+    st.text("")
+    st.text("")
+    st.text("You cant write reviews yet because you haven't gone on Co-op.")
+    st.subheader("Check in later! 🚀")
     st.stop()
 
 # Set page title
