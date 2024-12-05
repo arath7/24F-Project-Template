@@ -369,6 +369,46 @@ INSERT INTO Review (StudentNUID, learningOpportunities, workCulture, overallSati
 (100039, 10, 9, 10, 10, 'Exceptional mentorship and exposure to autonomous vehicles.', 39),
 (100042, 7, 9, 10, 7, 'The supportive work environment and challenging tasks helped me grow both personally and professionally.', 8),
 (100040, 8, 7, 8, 8, 'Great learning experience in full-stack development.', 40);
+(100041, 4, 3, 2, 3, 'The lack of structure and guidance made the experience frustrating.', 41),
+(100042, 2, 2, 3, 2, 'Work-life balance was poor, with frequent overtime and no appreciation.', 42),
+(100043, 3, 2, 3, 3, 'Tasks were mostly menial and didn’t align with my career goals.', 43),
+(100044, 1, 2, 2, 1, 'Toxic company culture and unapproachable management made the co-op unpleasant.', 44),
+(100045, 3, 3, 2, 3, 'Assigned tasks unrelated to my field of study, wasting valuable time.', 45),
+(100046, 2, 3, 2, 2, 'Severe communication gaps between departments caused unnecessary delays.', 46),
+(100047, 3, 3, 3, 3, 'Outdated tools and resources hindered efficiency and growth.', 47),
+(100048, 2, 2, 3, 2, 'Terrible onboarding process left me unprepared for weeks.', 48),
+(100049, 2, 3, 3, 2, 'Experienced favoritism, making it hard to feel valued as an intern.', 49),
+(100050, 3, 3, 2, 3, 'Work environment lacked collaboration and meaningful mentorship.', 50),
+(100051, 2, 2, 2, 2, 'Team members were unhelpful and dismissive towards interns.', 51),
+(100052, 3, 2, 3, 3, 'Tasks were repetitive, and there was little opportunity for learning.', 52),
+(100053, 1, 1, 2, 2, 'Faced discrimination and bias in the workplace, which was disheartening.', 53),
+(100054, 2, 3, 3, 2, 'The work was mundane and lacked intellectual stimulation.', 54),
+(100055, 3, 3, 2, 3, 'Feedback was often vague or non-existent, leaving me confused.', 55),
+(100056, 2, 2, 2, 3, 'The internship was poorly managed, with no clear objectives.', 56),
+(100057, 3, 3, 2, 3, 'Little effort was made to integrate interns into the team culture.', 57),
+(100058, 2, 2, 3, 2, 'Deadlines were unrealistic, with no support provided to meet them.', 58),
+(100059, 3, 2, 3, 3, 'The role did not align with the job description provided.', 59),
+(100060, 1, 1, 1, 1, 'The job was a complete joke, and the boss was an absolute a**hole.', 65),
+(100061, 1, 1, 1, 1, 'I hated every f***ing minute of this co-op; it was a total waste of time.', 66),
+(100062, 1, 1, 1, 1, 'The team was full of lazy b****** who dumped all their work on me.', 67),
+(100063, 1, 1, 1, 1, 'This place is s***, and the management doesn’t give a damn about interns.', 68),
+(100064, 1, 1, 1, 1, 'Such a waste of time, I hope they become bankrupt.', 64),
+(100065, 7, 6, 7, 8, 'The experience was good, but I expected more guidance from mentors.', 1),
+(100066, 9, 9, 9, 9, 'Excellent co-op program with hands-on training and supportive peers.', 1),
+(100067, 6, 7, 7, 6, 'Decent experience, but work culture could improve.', 1);
+(100068, 8, 8, 9, 8, 'This co-op helped me build industry-relevant skills.', 2),
+(100069, 7, 7, 7, 7, 'Good balance of work and learning, but slightly demanding.', 2),
+(100070, 9, 9, 10, 9, 'The best learning experience I’ve had so far.', 2),
+(100071, 6, 6, 6, 5, 'Somewhat repetitive tasks with minimal mentorship.', 2);
+(100072, 8, 7, 8, 7, 'Great exposure to industry tools and practices.', 3),
+(100073, 7, 8, 7, 6, 'Collaborative work culture but lacked advanced projects.', 3),
+(100074, 9, 9, 9, 9, 'Supportive mentors and meaningful projects.', 3),
+(100075, 6, 6, 6, 6, 'Could have been better organized with more guidance.', 3);
+(100076, 8, 8, 8, 7, 'Solid learning experience overall.', 1),
+(100077, 9, 7, 8, 8, 'The team was supportive and the projects were impactful.', 2),
+(100078, 6, 6, 6, 5, 'Minimal interaction with mentors and repetitive tasks.', 3),
+(100079, 9, 9, 10, 9, 'Exceptional work environment with engaging challenges.', 1),
+(100080, 7, 7, 7, 6, 'Decent learning curve but some inefficiencies in process.', 2);
 
 
 INSERT INTO Notifications (NUID, sentDate, Content) VALUES
