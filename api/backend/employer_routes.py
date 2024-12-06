@@ -45,7 +45,7 @@ def add_new_employer():
     phoneNumber = the_data['phoneNumber']
     
     
-    query = f''' INSERT INTO Employer (Name, Email, Address, phoneNumber, numJobs)
+    query = f''' INSERT INTO Employer (Name, Email, Address, phoneNumber)
     VALUES ('{Name}', '{Email}', '{Address}', '{phoneNumber}') 
     '''
     

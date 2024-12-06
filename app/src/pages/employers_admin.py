@@ -19,11 +19,11 @@ else:
     st.stop()
 
 # Display employer details
-st.write(f"Name: {employer_details['Name']}")
-st.write(f"Email: {employer_details['Email']}")
-st.write(f"Address: {employer_details['Address']}")
-st.write(f"Phone Number: {employer_details['phoneNumber']}")
-st.write(f"Number of Jobs: {employer_details['numJobs']}")
+st.write(f"Name: {employer_details[0]['Name']}")
+st.write(f"Email: {employer_details[0]['Email']}")
+st.write(f"Address: {employer_details[0]['Address']}")
+st.write(f"Phone Number: {employer_details[0]['phoneNumber']}")
+st.write(f"Number of Jobs: {employer_details[0]['numJobs']}")
 
 
 # Form to add a new employer
@@ -33,7 +33,6 @@ with st.form("add_employer_form"):
     email = st.text_input("Email")
     address = st.text_input("Address")
     phone_number = st.text_input("Phone Number")
-    num_jobs = st.number_input("Number of Jobs", min_value=0)
     submitted = st.form_submit_button("Add Employer")
     if submitted:
         new_employer = {
@@ -41,7 +40,6 @@ with st.form("add_employer_form"):
             "Email": email,
             "Address": address,
             "phoneNumber": phone_number,
-            "numJobs": num_jobs
         }
         response = requests.post('http://api:4000/e/employer', json=new_employer)
         if response.status_code == 200:
@@ -57,15 +55,13 @@ with st.form("update_employer_form"):
     email = st.text_input("Email", value=employer_details['Email'])
     address = st.text_input("Address", value=employer_details['Address'])
     phone_number = st.text_input("Phone Number", value=employer_details['phoneNumber'])
-    num_jobs = st.number_input("Number of Jobs", min_value=0, value=employer_details['numJobs'])
     submitted = st.form_submit_button("Update Employer")
     if submitted:
         updated_employer = {
             "Name": name,
             "Email": email,
             "Address": address,
-            "phoneNumber": phone_number,
-            "numJobs": num_jobs
+            "phoneNumber": phone_number
         }
         response = requests.put(f'http://api:4000/e/employer/{employer_id}', json=updated_employer)
         if response.status_code == 200:
