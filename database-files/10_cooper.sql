@@ -15,7 +15,6 @@ DROP TABLE IF EXISTS Employer;
 DROP TABLE IF EXISTS Job;
 DROP TABLE IF EXISTS StudentJobs;
 DROP TABLE IF EXISTS JobCategory;
--- DROP TABLE IF EXISTS Statistics;
 DROP TABLE IF EXISTS Student;
 
 
@@ -35,8 +34,6 @@ CREATE TABLE Employer
    Email       VARCHAR(100) NOT NULL,
    Address     VARCHAR(255) NOT NULL,
    phoneNumber VARCHAR(20)  NOT NULL,
-   numJobs     INT, -- need to update when linked to jobs
-   Rating      DECIMAL(3, 2), -- update when linked to reviews
    UNIQUE (Email),
    UNIQUE (phoneNumber),
    UNIQUE (Address)
@@ -54,8 +51,6 @@ CREATE TABLE Job
    numOpenings      INT          NOT NULL,
    returnOffers     BOOLEAN      NOT NULL,
    Salary           DOUBLE       NOT NULL,
-   AggregatedReview TEXT, -- need to cascade and make later
-   Rating           INT, -- cascade and make later
    FOREIGN KEY (JobCategoryID) REFERENCES JobCategory (JobCategoryID),
    FOREIGN KEY (employerID) REFERENCES Employer (employerID)
 );
@@ -172,16 +167,3 @@ CREATE TABLE Flagged_Content
    FOREIGN KEY (ReviewID) REFERENCES Review (ReviewID),
    FOREIGN KEY (adminID) REFERENCES Administrator (adminID)
 );
-
-
--- Statistics table creation
--- maybe turn into a backend query instead, executed as someone wants to see data
--- CREATE TABLE Statistics
--- (
---    statisticsID   INT AUTO_INCREMENT PRIMARY KEY,
---    totalUsers     INT      NOT NULL,
---    totalJobs      INT      NOT NULL,
---    totalReviews   INT      NOT NULL,
---    totalEmployers INT      NOT NULL,
---    generatedDate  DATETIME NOT NULL
--- );
