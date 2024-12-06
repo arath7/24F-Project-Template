@@ -17,10 +17,10 @@ else:
 st.header("Total Counts")
 try:
     counts = {
-        "Students": requests.get("http://your-api-url/admin/total_students").json()[0].get("COUNT(NUID)", 0),
-        "Jobs": requests.get("http://your-api-url/admin/total_jobs").json()[0].get("COUNT(JobID)", 0),
-        "Reviews": requests.get("http://your-api-url/admin/total_reviews").json()[0].get("COUNT(reviewID)", 0),
-        "Employers": requests.get("http://your-api-url/admin/total_employers").json()[0].get("COUNT(employerID)", 0),
+        "Students": requests.get("http://api:4000/a/admin/total_students").json()[0].get("COUNT(NUID)", 0),
+        "Jobs": requests.get("http://api:4000/a/admin/total_jobs").json()[0].get("COUNT(JobID)", 0),
+        "Reviews": requests.get("http://api:4000/a/admin/total_reviews").json()[0].get("COUNT(reviewID)", 0),
+        "Employers": requests.get("http://api:4000/a/admin/total_employers").json()[0].get("COUNT(employerID)", 0),
     }
     st.bar_chart(pd.DataFrame.from_dict(counts, orient="index", columns=["Count"]))
 except Exception as e:
@@ -28,7 +28,7 @@ except Exception as e:
 
 # Section 3: Jobs by Category 
 st.header("Jobs by Category")
-response = requests.get("http://your-api-url/admin/jobs_by_category")
+response = requests.get("http://api:4000/a/admin/jobs_by_category")
 if response.status_code == 200:
     try:
         jobs_by_category = pd.DataFrame(response.json())
