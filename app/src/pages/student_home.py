@@ -13,6 +13,7 @@ import requests
 st.set_page_config(page_title="CO-OPer Rates", layout="wide")
 SideBarLinks()
 st.session_state.selected_position = ""
+st.session_state.page = "student_home"
 
 if st.session_state['first_name'] == "Penny":
     penny = requests.get(f'http://api:4000/s/Student/100042').json()

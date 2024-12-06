@@ -31,28 +31,33 @@ else:
     studentjob = None
 
 
-
-
-
-####### SAVE REVIEW function
 def saveReviewButton(review):
-    if st.button("Save Review 📕", key=f'save{review["reviewID"]}'):
-        payload = {
-            "NUID": current_user[0].get('NUID'),
-            "ReviewID": review['reviewID'],
-        }
-        try:
-            # Make the POST request
-            response =  requests.post(f"http://api:4000/r/review/starred", json=payload)
-            # Handle the response
-            if response.status_code == 200:
-                st.success("Successfully added review!")
-            else:
-                st.error(f"Failed to add review. Status code: {response.status_code}")
-                st.write("Response:", response.text)
 
-        except requests.exceptions.RequestException as e:
-            st.error(f"An error occurred: {e}")
+    try:
+        allStarred = requests.get(f'http://api:4000/r/review/starred/{nuid}').json()
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error fetching saved reviews: {e}")
+        return
+
+    review_saved = any(r['ReviewID'] == review['reviewID'] for r in allStarred)
+    if review_saved:
+        st.button("Saved 📗", key=f"saveded{review['reviewID']}", disabled=True)
+    else:
+        if st.button("Save Review 📕", key=f'save{review["reviewID"]}'):
+            payload = {
+                "NUID": nuid,
+                "ReviewID": review['reviewID'],
+            }
+            try:
+                response = requests.post(f"http://api:4000/r/review/starred", json=payload)
+                if response.status_code == 200:
+                    st.success("Successfully added review!")
+                else:
+                    st.error(f"Failed to add review. Status code: {response.status_code}")
+                    st.write("Response:", response.text)
+            except requests.exceptions.RequestException as e:
+                st.error(f"An error occurred: {e}")
+
 
 def deleteReview(review):
     if st.button("Delete 🗑️", key=f'Delete{review["reviewID"]}',  type ='primary'):
@@ -79,6 +84,7 @@ def editReview(review):
         st.session_state['prevPage'] = st.session_state['currentPage']
         st.session_state.selected_review = review
         st.switch_page('pages/write_review.py')
+
 
 
 def make_listing(pos):
