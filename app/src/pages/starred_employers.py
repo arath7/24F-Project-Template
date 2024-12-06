@@ -35,7 +35,7 @@ if len(starred_employers) > 0:
                 st.session_state.page = "employer_details"
                 st.session_state['prevPage'] = "starred_employers"
                 st.session_state.selected_employer = employer
-                st.switch_page('pages/employer_details.py')
+                st.switch_page('pages/employer_jobs.py')
 
         with col2:
             if st.button(f"🗑️", key=f'delete{starred_employer["employerID"]}_from_employer'):
