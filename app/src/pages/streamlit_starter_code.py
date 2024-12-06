@@ -6,7 +6,7 @@ st.title("Admin Dashboard")
 
 # Section 1: Return Offer Percentage
 st.header("Return Offer Percentage")
-response = requests.get("http://your-api-url/admin/return_offer_percentage")
+response = requests.get("http://api:4000/a/admin/return_offer_percentage")
 if response.status_code == 200:
     return_offer_percentage = response.json().get("returnOfferPercentage", 0)
     st.metric(label="Return Offer Percentage", value=f"{return_offer_percentage:.2f}%")
