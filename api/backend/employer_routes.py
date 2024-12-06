@@ -141,3 +141,17 @@ def get_jobs_by_employer(employerID):
     the_response = make_response(jsonify(theData))
     the_response.status_code = 200
     return the_response
+
+
+#Get the total number of jobs listed by a specific employer
+@employer.route('/employer/<employerID>/jobs/total', methods=['GET'])
+def get_total_jobs_by_employer(employerID):
+    current_app.logger.info('GET /employer/<employerID>/jobs/total route')
+    cursor = db.get_db().cursor()
+    cursor.execute('SELECT COUNT(*) FROM Job WHERE employerID = {0}'.format(employerID))
+    
+    theData = cursor.fetchall()
+    
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
