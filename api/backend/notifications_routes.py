@@ -37,31 +37,21 @@ def create_notification():
     return response
 
 #------------------------------------------------------------
-# Update the content of a specific notification
-@notifications.route('/Notifications/<notifID>', methods=['PUT'])
-def update_notification(notifID):
-    the_data = request.json
-    current_app.logger.info(the_data)
+# Get all notifications for a specific student
+@notifications.route('/Notifications/<NUID>', methods=['GET'])
+def get_notifications(NUID):
+    current_app.logger.info(f'GET /Notifications/{NUID} route')
 
-    fields_to_update = []
-    for field, value in the_data.items():
-        fields_to_update.append(f"{field} = %s")
-
-    set_clause = ", ".join(fields_to_update)
-    query = f"UPDATE Notifications SET {set_clause} WHERE notificationID = %s"
-
-    values = list(the_data.values())
-    values.append(notifID)
-
+    query = f'''SELECT * FROM Notifications WHERE NUID = {NUID}'''
     current_app.logger.info(query)
 
     cursor = db.get_db().cursor()
-    cursor.execute(query, values)
-    db.get_db().commit()
+    cursor.execute(query)
+    theData = cursor.fetchall()
 
-    response = make_response("Successfully updated notification")
-    response.status_code = 200
-    return response
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
 
 #------------------------------------------------------------
 # Delete a specific notification by ID
@@ -69,7 +59,7 @@ def update_notification(notifID):
 def delete_notification(notifID):
     current_app.logger.info(f'DELETE /Notifications/{notifID} route')
 
-    query = f'''DELETE FROM Notifications WHERE notificationID = {notifID}'''
+    query = f'''DELETE FROM Notifications WHERE notifID = {notifID}'''
     current_app.logger.info(query)
 
     cursor = db.get_db().cursor()
