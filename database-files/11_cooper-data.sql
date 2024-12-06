@@ -367,7 +367,7 @@ INSERT INTO Review (StudentNUID, learningOpportunities, workCulture, overallSati
 (100037, 7, 7, 8, 7, 'Good internship with solid exposure to database management.', 37),
 (100038, 9, 8, 9, 9, 'Supportive mentors and engaging tasks in mobile app development.', 38),
 (100039, 10, 9, 10, 10, 'Exceptional mentorship and exposure to autonomous vehicles.', 39),
-(100040, 8, 7, 8, 8, 'Great learning experience in full-stack development.', 40);
+(100040, 8, 7, 8, 8, 'Great learning experience in full-stack development.', 40),
 (100041, 4, 3, 2, 3, 'The lack of structure and guidance made the experience frustrating.', 1),
 (100042, 2, 2, 3, 2, 'Work-life balance was poor, with frequent overtime and no appreciation.', 2),
 (100043, 3, 2, 3, 3, 'Tasks were mostly menial and did not align with my career goals.', 3),
@@ -394,15 +394,15 @@ INSERT INTO Review (StudentNUID, learningOpportunities, workCulture, overallSati
 (100024, 1, 1, 1, 1, 'Such a waste of time, I hope they become bankrupt.', 7),
 (100025, 7, 6, 7, 8, 'The experience was good, but I expected more guidance from mentors.', 8),
 (100026, 9, 9, 9, 9, 'Excellent co-op program with hands-on training and supportive peers.', 9),
-(100027, 6, 7, 7, 6, 'Decent experience, but work culture could improve.', 10);
+(100027, 6, 7, 7, 6, 'Decent experience, but work culture could improve.', 10),
 (100028, 8, 8, 9, 8, 'This co-op helped me build industry-relevant skills.', 11),
 (100029, 7, 7, 7, 7, 'Good balance of work and learning, but slightly demanding.', 12),
 (100020, 9, 9, 10, 9, 'The best learning experience I have had so far.', 13),
-(100031, 6, 6, 6, 5, 'Somewhat repetitive tasks with minimal mentorship.', 14);
+(100031, 6, 6, 6, 5, 'Somewhat repetitive tasks with minimal mentorship.', 14),
 (100032, 8, 7, 8, 7, 'Great exposure to industry tools and practices.', 15),
 (100033, 7, 8, 7, 6, 'Collaborative work culture but lacked advanced projects.', 16),
 (100034, 9, 9, 9, 9, 'Supportive mentors and meaningful projects.', 17),
-(100035, 6, 6, 6, 6, 'Could have been better organized with more guidance.', 18);
+(100035, 6, 6, 6, 6, 'Could have been better organized with more guidance.', 18),
 (100036, 8, 8, 8, 7, 'Solid learning experience overall.', 19),
 (100037, 9, 7, 8, 8, 'The team was supportive and the projects were impactful.', 20),
 (100038, 6, 6, 6, 5, 'Minimal interaction with mentors and repetitive tasks.', 21),
