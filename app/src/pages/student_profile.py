@@ -91,17 +91,18 @@ def Student(user):
             #                        review['overallSatisfaction'], review['Mentorship']])
             # rating = (reviewSum / 10)
             # st.write("⭐" * int(rating) + "☆" * math.ceil(5 - rating))
+            # "View Details" button
+            if st.button(f"View Details", key=f'{review["reviewID"]}'):
+                st.session_state.page = "review_details"
+                st.session_state['prevPage'] = "student_profile"
+                st.session_state.selected_review = review
+                st.session_state.selected_position = job
+                st.switch_page('pages/review_details.py');
 
     else:
         st.markdown(f"<small><i>Nothing yet! 🔧</i></small>", unsafe_allow_html=True)
 
 
 
-    # "View Details" button
-    if st.button(f"View Details", key=f'{review["reviewID"]}'):
-        st.session_state.page = "review_details"
-        st.session_state['prevPage'] = "student_profile"
-        st.session_state.selected_review = review
-        st.session_state.selected_position = job
-        st.switch_page('pages/review_details.py');
+
 Student(current)

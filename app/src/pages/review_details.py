@@ -20,11 +20,11 @@ review = st.session_state.selected_review
 position = st.session_state.selected_position
 st.session_state['currentPage'] = 'review_details'
 #
-# prevpage = st.session_state['prevPage']
-# if st.button("← Back"):
-#     st.session_state.page = prevpage
-#     st.switch_page(f"pages/{prevpage}.py")
-# col1, col2 = st.columns([1, 3])
+prevpage = st.session_state['prevPage']
+if st.button("← Back"):
+    st.session_state.page = prevpage
+    st.switch_page(f"pages/{prevpage}.py")
+col1, col2 = st.columns([1, 3])
 
 employer = requests.get(f'http://api:4000/e/employer/{position["employerID"]}').json()[0]['Name']
 
