@@ -37,14 +37,17 @@ def add_new_student():
 
     # Extracting the variables
     NUID = the_data['NUID']
+    bDate = the_data['bDate']
     firstName = the_data['firstName']
     lastName = the_data['lastName']
     Email = the_data['Email']
+    school = the_data['school']
     major = the_data['major']
     GradYear = the_data['GradYear']
+    searchStatus = the_data['searchStatus']
 
-    query = f''' INSERT INTO Student (studentID, firstName, lastName, email, major, grad_year)
-      VALUES ('{NUID}', '{firstName}', '{lastName} '{Email}', '{major}', '{GradYear}') 
+    query = f''' INSERT INTO Student (NUID, bDate, firstName, lastName, Email, school, major, GradYear, searchStatus)
+      VALUES ('{NUID}', '{bDate}', '{firstName}', '{lastName}', '{Email}', '{school}', '{major}', '{GradYear}', '{searchStatus}') 
     '''
     
     current_app.logger.info(query)
@@ -151,7 +154,7 @@ def delete_job_application(id):
 
     jobID = the_data['jobID']
 
-    query = f'''DELETE FROM StudentJobs WHERE studentID = '{id}' AND jobID = '{jobID}' '''
+    query = f'''DELETE FROM StudentJobs WHERE NUID = '{id}' AND jobID = '{jobID}' '''
     
     current_app.logger.info(query)
 
