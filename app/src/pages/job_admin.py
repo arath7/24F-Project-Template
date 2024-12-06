@@ -10,7 +10,7 @@ import requests
 st.set_page_config(page_title="Job Details", layout="wide")
 SideBarLinks()
 
-# Fetch employer details
+# Fetch job details
 response = requests.get('http://api:4000/j/jobs')
 if response.status_code == 200:
     job_details = response.json()
@@ -21,17 +21,17 @@ else:
 
 
 
-# Search bar to filter employers by name
+# Search bar to filter jobs by name
 search_query = st.text_input("Search for Job by Name")
 
 
-# Filter employers based on search query
+# Filter jobs based on search query
 if search_query:
     filtered_jobs = [job for job in job_details if search_query.lower() in job['Name'].lower()]
 else:
     filtered_jobs = [job_details[0]]
 
-# Display filtered employer details with delete button
+# Display filtered job details with delete button
 st.header("Jobs List")
 for job in filtered_jobs:
     col1, col2, col3 = st.columns([3, 1, 1])
@@ -39,7 +39,7 @@ for job in filtered_jobs:
         st.write(f"Name: {job['Name']}")
         st.write(f"Description: {job['Description']}")
         st.write(f"Number of Openings: {job['numOpenings']}")
-        st.write(f"Return Offers: {job['returnOffers']}")
+        st.write(f"Return Offers: {'Yes' if job['returnOffers'] > 0 else 'No'}")
         st.write(f"Salary: {job['Salary']}")
         st.write("")
         
@@ -49,6 +49,7 @@ for job in filtered_jobs:
             delete_response = requests.delete(f'http://api:4000/j/jobs/{job["JobID"]}')
             if delete_response.status_code == 200:
                 st.success(f"Job {job['Name']} deleted successfully")
+                
             else:
                 st.error("Failed to delete job")
        
@@ -73,22 +74,44 @@ if 'update_job' in st.session_state:
                 "Name": name,
                 "Description": description,
                 "numOpenings": num_openings,
-                "returnOffers": return_offers,
+                "returnOffers": 1 if return_offers else 0,
                 "Salary": salary,
             }
             response = requests.put(f'http://api:4000/j/jobs/{st.session_state["update_job"]["JobID"]}', json=updated_job)
             if response.status_code == 200:
                 st.success("Job updated successfully")
                 del st.session_state['update_job']
-                st.experimental_rerun()  # Refresh the page to update the list
             else:
                 st.error("Failed to update job")
+
+
+
+# Fetch employer details
+employer_response = requests.get('http://api:4000/e/employer')
+if employer_response.status_code == 200:
+    employers = employer_response.json()
+else:
+    st.error("Failed to fetch employer details")
+    st.stop()
+
+# Fetch job category details
+job_category_response = requests.get('http://api:4000/jc/jobCategory')
+if job_category_response.status_code == 200:
+    job_categories = job_category_response.json()
+else:
+    st.error("Failed to fetch job category details")
+    st.stop()
+
 
 # Form to add a new job
 st.header("Add New Job")
 with st.form("add_job_form"):
-    employer_id = st.text_input("Employer ID")
-    job_category_id = st.text_input("Job Category ID")
+    employer_names = [employer['Name'] for employer in employers]
+    job_category_names = [category['Name'] for category in job_categories]
+
+    selected_employer_name = st.selectbox("Employer", employer_names)
+    selected_job_category_name = st.selectbox("Job Category", job_category_names)
+
     name = st.text_input("Name")
     description = st.text_area("Description")
     num_openings = st.number_input("Number of Openings")
@@ -96,19 +119,36 @@ with st.form("add_job_form"):
     salary = st.number_input("Salary")
     submitted = st.form_submit_button("Add Job")
     if submitted:
+        selected_employer = next(employer for employer in employers if employer['Name'] == selected_employer_name)
+        selected_job_category = next(category for category in job_categories if category['Name'] == selected_job_category_name)
+
         new_job = {
-            "employerID": employer_id,
-            "JobCategoryID" : job_category_id,
+            "employerID": selected_employer['employerID'],
+            "JobCategoryID": selected_job_category['JobCategoryID'],
             "Name": name,
             "Description": description,
             "numOpenings": num_openings,
-            "returnOffers": return_offers,
+            "returnOffers": 1 if return_offers else 0,
             "Salary": salary,
         }
         response = requests.post('http://api:4000/j/jobs', json=new_job)
         if response.status_code == 200:
             st.success("Job added successfully")
-            st.experimental_rerun()  # Refresh the page to update the list
         else:
             st.error("Failed to add job")
+
+# Form to add a new job category
+st.header("Add New Job Category")
+with st.form("add_job_category_form"):
+    category_name = st.text_input("Job Category Name")
+    submitted = st.form_submit_button("Add Job Category")
+    if submitted:
+        new_category = {
+            "Name": category_name,
+        }
+        response = requests.post('http://api:4000/jc/jobCategory', json=new_category)
+        if response.status_code == 200:
+            st.success("Job category added successfully")
+        else:
+            st.error("Failed to add job category")            
 
