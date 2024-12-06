@@ -34,14 +34,12 @@ with col1:
         else:
             st.error(f"Failed to fetch number of jobs from {route}")
             st.stop()
-    num_jobs = (jobs_json.get('num_jobs', []))[0]["COUNT(*)"]
 
 
     st.write(f"### Employer: {selected_employer['Name']}")
     st.write(f"**Email**: {selected_employer['Email']}")
     st.write(f"**Address**: {selected_employer['Address']}")
     st.write(f"**Phone**: {selected_employer['phoneNumber']}")
-    st.write(f"**Number of Job Roles**: " + str(num_jobs))
 
 
 with col2:
@@ -58,7 +56,7 @@ with col2:
                 st.markdown(f'**Category:** :gray[{category["Name"]}]')
                 st.markdown(f"**Openings:** {job['numOpenings']}")
                 st.markdown(f"**Salary:** ${job['Salary']}")
-                st.markdown(f"**Return Offers:** ${job['returnOffers']}")
+                st.markdown(f"**Return Offers:** {job['returnOffers']}")
 
 
                 rating = requests.get(f'http://api:4000/j/jobs/averageRating/{job.get("JobID")}').json()[0]

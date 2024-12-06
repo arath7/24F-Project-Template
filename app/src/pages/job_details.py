@@ -157,6 +157,7 @@ if st.session_state.page == "job_details":
                 author = requests.get(f'http://api:4000/s/Student/{review["StudentNUID"]}').json()[0]
 
                 if st.page_link("pages/student_viewer.py", label=f"**{author['firstName']}**") :
+                    st.session_state["visiting_student_role"] = 'reviewer'
                     st.session_state["visiting_student"] = author
 
                 st.write(review["textReview"])
@@ -172,11 +173,11 @@ if st.session_state.page == "job_details":
                 col11, col12 = st.columns([3, 4])
                 # "View Details" button
                 with col11:
-                    if st.button(f"View Details", key=f'{review["reviewID"]}'):
+                    if st.button(f"View Details", key=f'{review["reviewID"]}_in_jobs'):
                         st.session_state.page = "review_details"
                         st.session_state['prevPage'] = "job_details"
                         st.session_state.selected_review = review
-                        st.switch_page('pages/review_details.py');
+                        st.switch_page('pages/review_details.py')
                 with col12:
 
                     if review["StudentNUID"] == current_user[0].get('NUID'):

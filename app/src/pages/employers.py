@@ -46,14 +46,12 @@ else:
                 st.error(f"Failed to fetch number of jobs from {route}")
                 st.stop()
         
-        num_jobs = (jobs_json.get('num_jobs', []))[0]["COUNT(*)"]
-        
+
         st.markdown(f"##### {employer['Name']}")
         st.write(f"{employer['Email']}")
         st.write(f"{employer['Address']}")
         st.write(f"{employer['phoneNumber']}")
         
-        st.write(f"Number of Job Roles: " + str(num_jobs))
         if st.button(f"View Details - {employer['Name']}", key=employer["Name"]):
             st.session_state.page = "job_details"
             st.session_state.selected_employer = employer

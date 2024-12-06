@@ -16,7 +16,11 @@ def AboutPageNav():
 #### ------------------------ Student Role ------------------------
 def StudentPageNav():
     st.sidebar.page_link("pages/student_home.py", label="Search For Jobs", icon="🔍")
+
+
     st.sidebar.page_link("pages/student_profile.py", label="Profile", icon="🙂️")
+
+
     if st.session_state["first_name"] is "Penny":
         st.sidebar.page_link("pages/write_review.py", label="Write a Review️", icon="✏️")
 

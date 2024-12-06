@@ -44,12 +44,12 @@ logger.info("Loading the Home page of the app")
 # Home Screen Title
 st.write('##### Welcome! Please choose the user you would like to log in as')
 
-if st.button("Act as Mark, a student searching for co-op 🧑‍💻",
+if st.button("Act as Kyle, a student searching for co-op 🧑‍💻",
              type = 'primary',
              use_container_width=True ):
     st.session_state['authenticated'] = True
     st.session_state['role'] = 'student'
-    st.session_state['first_name'] = 'Mark'
+    st.session_state['first_name'] = 'Kyle'
     st.switch_page('pages/student_home.py')
 
 
