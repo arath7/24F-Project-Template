@@ -59,6 +59,7 @@ def saveReviewButton(review):
                 st.error(f"An error occurred: {e}")
 
 
+
 def deleteReview(review):
     if st.button("Delete 🗑️", key=f'Delete{review["reviewID"]}',  type ='primary'):
         try:
