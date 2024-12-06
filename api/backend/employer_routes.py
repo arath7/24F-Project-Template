@@ -43,11 +43,10 @@ def add_new_employer():
     Email = the_data['Email']
     Address = the_data['Address']
     phoneNumber = the_data['phoneNumber']
-    numJobs = the_data['numJobs']
     
     
     query = f''' INSERT INTO Employer (Name, Email, Address, phoneNumber, numJobs)
-    VALUES ('{Name}', '{Email}', '{Address}', '{phoneNumber}', '{numJobs}') 
+    VALUES ('{Name}', '{Email}', '{Address}', '{phoneNumber}') 
     '''
     
     current_app.logger.info(query)
@@ -84,7 +83,7 @@ def update_employer(employerID):
     current_app.logger.info(the_data)
 
     # Validate fields
-    allowed_fields = {"Name", "Email", "Address", "phoneNumber", "numJobs"}  # Define allowed columns
+    allowed_fields = {"Name", "Email", "Address", "phoneNumber"}  # Define allowed columns
     fields_to_update = []
     values = []
 
@@ -135,6 +134,20 @@ def get_jobs_by_employer(employerID):
     current_app.logger.info('GET /employer/<employerID>/jobs route')
     cursor = db.get_db().cursor()
     cursor.execute('SELECT * FROM Job WHERE employerID = {0}'.format(employerID))
+    
+    theData = cursor.fetchall()
+    
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
+
+#Get the total number of jobs listed by a specific employer
+@employer.route('/employer/<employerID>/jobs/total', methods=['GET'])
+def get_total_jobs_by_employer(employerID):
+    current_app.logger.info('GET /employer/<employerID>/jobs/total route')
+    cursor = db.get_db().cursor()
+    cursor.execute('SELECT COUNT(*) FROM Job WHERE employerID = {0}'.format(employerID))
     
     theData = cursor.fetchall()
     
