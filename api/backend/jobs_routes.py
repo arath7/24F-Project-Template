@@ -78,6 +78,20 @@ def get_job(jobID):
     return the_response
 
 #------------------------------------------------------------
+# Get job details for a job with a particular jobID
+@jobs.route('/jobs/<employerID>/employer', methods=['GET'])
+def get_job_employer(employerID):
+    current_app.logger.info('GET /jobs/<employerID>/employer route')
+    cursor = db.get_db().cursor()
+    cursor.execute('SELECT * FROM Job WHERE JobID = {0}'.format(employerID))
+
+    theData = cursor.fetchall()
+
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
+#------------------------------------------------------------
 #Update an existing job listing with a particular jobID
 @jobs.route('/jobs/<jobID>', methods=['PUT'])
 def update_job(jobID):
