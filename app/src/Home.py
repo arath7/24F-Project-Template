@@ -21,7 +21,6 @@ from modules.nav import Header
 # st.set_page_config(layout = 'wide')
 
 st.set_page_config(page_title="CO-OPer Rates", layout="wide")
-Header()
 
 # If a user is at this page, we assume they are not
 # authenticated.  So we change the 'authenticated' value

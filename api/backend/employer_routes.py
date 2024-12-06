@@ -59,9 +59,37 @@ def add_new_employer():
     response = make_response("Successfully added employer")
     response.status_code = 200
     return response
-    
 
 #------------------------------------------------------------
+# Add a new employer to the system
+@employer.route('/employer/starred', methods=['POST'])
+def add_new_starred_employer():
+
+    the_data = request.json
+    current_app.logger.info(the_data)
+
+    #extracting the variable
+    employerID = the_data['employerID']
+    NUID = the_data['NUID']
+
+
+    query = f''' INSERT INTO Starred_Employers (employerID, NUID)
+    VALUES ('{employerID}', '{NUID}') 
+    '''
+
+    current_app.logger.info(query)
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    db.get_db().commit()
+
+    response = make_response("Successfully added employer")
+    response.status_code = 200
+    return response
+
+
+
+
 # Get employer details for an employer with a particular employerID
 @employer.route('/employer/<employerID>', methods=['GET'])
 def get_employer(employerID):
@@ -71,6 +99,20 @@ def get_employer(employerID):
     
     theData = cursor.fetchall()
     
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
+
+# Get employer details for an employer with a particular employerID
+@employer.route('/employer/starred/<NUID>', methods=['GET'])
+def get_starred_employer(NUID):
+    current_app.logger.info('GET /employer/<NUID> route')
+    cursor = db.get_db().cursor()
+    cursor.execute('SELECT * FROM Starred_Employers WHERE NUID = {0}'.format(NUID))
+
+    theData = cursor.fetchall()
+
     the_response = make_response(jsonify(theData))
     the_response.status_code = 200
     return the_response
@@ -124,6 +166,19 @@ def delete_employer(employerID):
     cursor.execute('DELETE FROM Employer WHERE employerID = {0}'.format(employerID))
     db.get_db().commit()
     
+    response = make_response("Successfully deleted employer")
+    response.status_code = 200
+    return response
+
+
+#Delete an existing employer with a particular employerID
+@employer.route('/employer/starred/<employerID>', methods=['DELETE'])
+def delete_starred_employer(employerID):
+    current_app.logger.info('DELETE /employer/<employerID> route')
+    cursor = db.get_db().cursor()
+    cursor.execute('DELETE FROM Starred_Employers WHERE employerID = {0}'.format(employerID))
+    db.get_db().commit()
+
     response = make_response("Successfully deleted employer")
     response.status_code = 200
     return response

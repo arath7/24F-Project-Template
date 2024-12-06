@@ -18,32 +18,6 @@ else:
     st.error("Failed to fetch employer details")
     st.stop()
 
-# # Display employer details
-# st.write(f"Name: {employer_details[0]['Name']}")
-# st.write(f"Email: {employer_details[0]['Email']}")
-# st.write(f"Address: {employer_details[0]['Address']}")
-# st.write(f"Phone Number: {employer_details[0]['phoneNumber']}")
-# st.write(f"Number of Jobs: {employer_details[0]['numJobs']}")
-# Display employer details with delete button
-
-
-# st.header("Employers List")
-# for employer in employer_details:
-#     col1, col2 = st.columns([3, 1])
-#     with col1:
-#         st.write(f"Name: {employer['Name']}")
-#         st.write(f"Email: {employer['Email']}")
-#         st.write(f"Address: {employer['Address']}")
-#         st.write(f"Phone Number: {employer['phoneNumber']}")
-#         st.write(f"Number of Jobs: {employer['numJobs']}")
-#     with col2:
-#         if st.button(f"Delete {employer['Name']}", key=employer['employerID']):
-#             response = requests.delete(f'http://api:4000/e/employer/{employer["employerID"]}')
-#             if response.status_code == 200:
-#                 st.success(f"Employer {employer['Name']} deleted successfully")
-#                 st.experimental_rerun()  # Refresh the page to update the list
-#             else:
-#                 st.error(f"Failed to delete employer {employer['Name']}")
 
 
 
@@ -69,7 +43,7 @@ for employer in filtered_employers:
         st.write("")
         
     with col2:
-        if st.button(f"Delete {employer['Name']}", key=employer['employerID']):
+        if st.button("Delete", key=employer['employerID']):
             job_response = requests.get(f'http://api:4000/e/employer/{employer["employerID"]}/jobs')
             if job_response.status_code == 200:
                 jobs = job_response.json()
@@ -80,15 +54,15 @@ for employer in filtered_employers:
                     delete_response = requests.delete(f'http://api:4000/e/employer/{employer["employerID"]}')
                     if delete_response.status_code == 200:
                         st.success(f"Employer {employer['Name']} deleted successfully")
-                        st.experimental_rerun()  # Refresh the page to update the list
                     else:
                         st.error(f"Failed to delete employer {employer['Name']}")
             else:
                 st.error("Failed to check job openings for this employer")
             
     with col3:
-        if st.button(f"Update {employer['Name']}", key=f"update_{employer['employerID']}"):
+        if st.button("Update", key=f"update_{employer['employerID']}"):
             st.session_state['update_employer'] = employer
+
 
 # Form to update an employer
 if 'update_employer' in st.session_state:
@@ -110,7 +84,6 @@ if 'update_employer' in st.session_state:
             if response.status_code == 200:
                 st.success("Employer updated successfully")
                 del st.session_state['update_employer']
-                st.experimental_rerun()  # Refresh the page to update the list
             else:
                 st.error("Failed to update employer")
 
@@ -136,36 +109,3 @@ with st.form("add_employer_form"):
         else:
             st.error("Failed to add employer")
 
-# # Form to update an existing employer
-# st.header("Update Employer")
-# with st.form("update_employer_form"):
-#     employer_id = st.text_input("Employer ID")
-#     name = st.text_input("Name", value=employer_details['Name'])
-#     email = st.text_input("Email", value=employer_details['Email'])
-#     address = st.text_input("Address", value=employer_details['Address'])
-#     phone_number = st.text_input("Phone Number", value=employer_details['phoneNumber'])
-#     submitted = st.form_submit_button("Update Employer")
-#     if submitted:
-#         updated_employer = {
-#             "Name": name,
-#             "Email": email,
-#             "Address": address,
-#             "phoneNumber": phone_number
-#         }
-#         response = requests.put(f'http://api:4000/e/employer/{employer_id}', json=updated_employer)
-#         if response.status_code == 200:
-#             st.success("Employer updated successfully")
-#         else:
-#             st.error("Failed to update employer")
-
-# # Form to delete an employer
-# st.header("Delete Employer")
-# with st.form("delete_employer_form"):
-#     employer_id = st.text_input("Employer ID to Delete")
-#     submitted = st.form_submit_button("Delete Employer")
-#     if submitted:
-#         response = requests.delete(f'http://api:4000/e/employer/{employer_id}')
-#         if response.status_code == 200:
-#             st.success("Employer deleted successfully")
-#         else:
-#             st.error("Failed to delete employer")

@@ -2,8 +2,6 @@ import math
 
 import streamlit as st
 import requests
-from attr.validators import disabled
-from streamlit import columns
 
 from modules.nav import SideBarLinks
 
@@ -18,28 +16,48 @@ SideBarLinks()
 col1, col2 = st.columns([2, 3])
 # Display employer details
 
+nuid = st.session_state['currentUser'][0].get('NUID')
+
+
+def saveEmployerButton(employer):
+
+    try:
+        allStarred = requests.get(f'http://api:4000/e/employer/starred/{nuid}').json()
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error fetching saved reviews: {e}")
+        return
+
+    employer_saved = any(r['employerID'] == employer['employerID'] for r in allStarred)
+    if employer_saved:
+        st.button("Saved 📗", key=f"saveded{employer['employerID']}_fromemployer", disabled=True)
+    else:
+        if st.button("Save Employer 📕", key=f'save{employer["employerID"]}_fromemployer'):
+            payload = {
+                "NUID": nuid,
+                "employerID": employer['employerID'],
+            }
+            try:
+                response = requests.post(f"http://api:4000/e/employer/starred", json=payload)
+                if response.status_code == 200:
+                    st.success("Successfully saved employer!")
+                else:
+                    st.error(f"Failed to save employer. Status code: {response.status_code}")
+                    st.write("Response:", response.text)
+            except requests.exceptions.RequestException as e:
+                st.error(f"An error occurred: {e}")
+
+
 with col1:
     if st.button("← Back to Search"):
         st.session_state.page = "employers"
         st.switch_page("pages/employers.py")
-
-    employer_info = { 
-        'num_jobs': f'http://api:4000/e/employer/{selected_employer["employerID"]}/jobs/total'
-        }
-    jobs_json = {}
-    for key, route in employer_info.items():
-        response = requests.get(route)
-        if response.status_code == 200:
-            jobs_json[key] = response.json()
-        else:
-            st.error(f"Failed to fetch number of jobs from {route}")
-            st.stop()
 
 
     st.write(f"### Employer: {selected_employer['Name']}")
     st.write(f"**Email**: {selected_employer['Email']}")
     st.write(f"**Address**: {selected_employer['Address']}")
     st.write(f"**Phone**: {selected_employer['phoneNumber']}")
+    saveEmployerButton(selected_employer)
 
 
 with col2:

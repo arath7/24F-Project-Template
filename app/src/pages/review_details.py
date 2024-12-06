@@ -4,7 +4,6 @@ import requests
 import streamlit as st
 
 from modules.nav import SideBarLinks
-from modules.nav import Header
 from pages.job_details import saveReviewButton
 
 from pages.job_details import current_user
@@ -14,7 +13,6 @@ from pages.job_details import editReview
 
 SideBarLinks()
 
-Header()
 
 review = st.session_state.selected_review
 position = st.session_state.selected_position

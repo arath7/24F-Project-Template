@@ -61,7 +61,35 @@ def add_new_job():
     response = make_response("Successfully added job")
     response.status_code = 200
     return response
-    
+
+
+#------------------------------------------------------------
+# Add a new job listing to the system
+@jobs.route('/jobs/starred', methods=['POST'])
+def add_new_starred_jobs():
+
+    the_data = request.json
+    current_app.logger.info(the_data)
+
+    #extracting the variable
+    JobID = the_data['JobID']
+    NUID = the_data['NUID']
+
+    query = f''' INSERT INTO Starred_Jobs (JobID, NUID)
+      VALUES ('{JobID}', '{NUID}') 
+    '''
+
+    current_app.logger.info(query)
+
+    # executing and committing the insert statement
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    db.get_db().commit()
+
+    response = make_response("Successfully added job")
+    response.status_code = 200
+    return response
+
 
 #------------------------------------------------------------
 # Get job details for a job with a particular jobID
@@ -76,6 +104,20 @@ def get_job(jobID):
     the_response = make_response(jsonify(theData))
     the_response.status_code = 200
     return the_response
+
+#------------------------------------------------------------
+# Get job details for a job with a particular jobID
+@jobs.route('/jobs/starred/<nuid>', methods=['GET'])
+def get_starred_jobs(nuid):
+    current_app.logger.info('GET /jobs/<jobID> route')
+    cursor = db.get_db().cursor()
+    cursor.execute('SELECT * FROM Starred_Jobs WHERE NUID = {0}'.format(nuid))
+    theData = cursor.fetchall()
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
+
 
 #------------------------------------------------------------
 # Get job details for a job with a particular jobID
@@ -134,6 +176,19 @@ def delete_job(jobID):
     cursor.execute('DELETE FROM Job WHERE JobID = {0}'.format(jobID))
     db.get_db().commit()
     
+    response = make_response("Successfully deleted job")
+    response.status_code = 200
+    return response
+
+
+#Delete an existing job listing with a particular jobID
+@jobs.route('/jobs/starred/<jobID>', methods=['DELETE'])
+def delete_starred_job(jobID):
+    current_app.logger.info('DELETE /jobs/<jobID> route')
+    cursor = db.get_db().cursor()
+    cursor.execute('DELETE FROM Starred_Jobs WHERE JobID = {0}'.format(jobID))
+    db.get_db().commit()
+
     response = make_response("Successfully deleted job")
     response.status_code = 200
     return response
