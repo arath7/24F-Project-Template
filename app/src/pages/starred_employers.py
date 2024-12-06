@@ -17,16 +17,15 @@ st.write("")
 # Fetch starred employers
 starred_employers = requests.get(f'http://api:4000/e/employer/starred/{NUID}').json()
 
-st.write(f"##### {len(starred_employers)} employers:")
+st.write(f"### {len(starred_employers)} employers:")
 if len(starred_employers) > 0:
     # Loop through each starred employer
     for starred_employer in starred_employers:
         employer = requests.get(f'http://api:4000/e/employer/{starred_employer["employerID"]}').json()[0]
         # Display employer information
-        st.markdown(f'###### {employer["Name"]}')
-        st.write(f"**Location:** {employer.get('Location', 'Not Available')}")
-        st.write(f"**Industry:** {employer.get('Industry', 'Not Available')}")
-        st.write(f"**Size:** {employer.get('Size', 'Not Available')} employees")
+        st.markdown(f'##### {employer["Name"]}')
+        st.write(f"**Location:** {employer.get('Address', 'Not Available')}")
+        st.write(f"**Email:** {employer.get('Email', 'Not Available')}")
 
         # "View Details" button for the employer
         col1, col2 = st.columns([1, 2])
@@ -36,7 +35,7 @@ if len(starred_employers) > 0:
                 st.session_state.page = "employer_details"
                 st.session_state['prevPage'] = "starred_employers"
                 st.session_state.selected_employer = employer
-                st.switch_page('pages/employer_details.py')
+                st.switch_page('pages/employer_jobs.py')
 
         with col2:
             if st.button(f"🗑️", key=f'delete{starred_employer["employerID"]}_from_employer'):
@@ -51,6 +50,9 @@ if len(starred_employers) > 0:
                         st.error(f"Failed to delete resource. Status code: {response.status_code}")
                 except requests.exceptions.RequestException as e:
                     st.error(f"An error occurred: {e}")
+        st.write(f"")
+        st.write(f"")
+
 
 else:
     st.markdown("<i>Nothing yet! Go out and save some employers! 🚗</i>", unsafe_allow_html=True)
