@@ -23,11 +23,25 @@ with col1:
         st.session_state.page = "employers"
         st.switch_page("pages/employers.py")
 
+    employer_info = { 
+        'num_jobs': f'http://api:4000/e/employer/{selected_employer["employerID"]}/jobs/total'
+        }
+    jobs_json = {}
+    for key, route in employer_info.items():
+        response = requests.get(route)
+        if response.status_code == 200:
+            jobs_json[key] = response.json()
+        else:
+            st.error(f"Failed to fetch number of jobs from {route}")
+            st.stop()
+    num_jobs = (jobs_json.get('num_jobs', []))[0]["COUNT(*)"]
+
+
     st.write(f"### Employer: {selected_employer['Name']}")
     st.write(f"**Email**: {selected_employer['Email']}")
     st.write(f"**Address**: {selected_employer['Address']}")
     st.write(f"**Phone**: {selected_employer['phoneNumber']}")
-    st.write(f"**Number of Jobs**: {selected_employer['numJobs']}")
+    st.write(f"**Number of Job Roles**: " + str(num_jobs))
 
 
 with col2:
@@ -58,7 +72,7 @@ with col2:
                 if st.button(f"View Details - {job['Name']}", key=job["Name"]):
                     st.session_state.page = "job_details"
                     st.session_state.selected_position = job
-                    st.switch_page('pages/job_details.py');
+                    st.switch_page('pages/job_details.py')
                 st.write("___")
 
         else:

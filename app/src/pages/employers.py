@@ -3,7 +3,6 @@ logger = logging.getLogger(__name__)
 import streamlit as st
 from modules.nav import SideBarLinks
 from assets.fakedata import fakedata
-from pages.student_home import make_listing
 import requests
 
 # Page configuration
@@ -34,15 +33,31 @@ if not filtered and search_query:
 else:
     # Display employer details
     for employer in filtered:
+
+        employer_info = { 
+        'num_jobs': f'http://api:4000/e/employer/{employer["employerID"]}/jobs/total'
+        }
+        jobs_json = {}
+        for key, route in employer_info.items():
+            response = requests.get(route)
+            if response.status_code == 200:
+                jobs_json[key] = response.json()
+            else:
+                st.error(f"Failed to fetch number of jobs from {route}")
+                st.stop()
+        
+        num_jobs = (jobs_json.get('num_jobs', []))[0]["COUNT(*)"]
+        
         st.markdown(f"##### {employer['Name']}")
         st.write(f"{employer['Email']}")
         st.write(f"{employer['Address']}")
         st.write(f"{employer['phoneNumber']}")
-        st.write(f"Number of Jobs: {employer['numJobs']}")
+        
+        st.write(f"Number of Job Roles: " + str(num_jobs))
         if st.button(f"View Details - {employer['Name']}", key=employer["Name"]):
             st.session_state.page = "job_details"
             st.session_state.selected_employer = employer
-            st.switch_page('pages/employer_jobs.py');
+            st.switch_page('pages/employer_jobs.py')
 
         st.write(f"__________")
 
