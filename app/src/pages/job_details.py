@@ -5,7 +5,6 @@ import math
 logger = logging.getLogger(__name__)
 import streamlit as st
 from modules.nav import SideBarLinks
-from modules.nav import Header
 # from pages.student_home import make_listing
 
 import requests
@@ -31,8 +30,48 @@ else:
     studentjob = None
 
 
-def saveReviewButton(review):
+def saveJobButton(job):
+    # Debugging: Display job data being passed
+    try:
+        # Fetch all starred jobs to check if the job is already saved
+        allStarred = requests.get(f'http://api:4000/j/jobs/starred/{nuid}').json()
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error fetching saved jobs: {e}")
+        return
 
+    # Debugging: Log all starred jobs for better insight
+    # Check if the current job is already saved
+    job_saved = any(r['JobID'] == job['JobID'] for r in allStarred)
+
+    # If the job is already saved, show the saved button
+    if job_saved:
+        st.button("Position Saved 📗", key=f"saved{job['JobID']}_job", disabled=True)
+    else:
+        # Otherwise, show the "Save Position" button
+        if st.button("Save Position 📕", key=f'save{job["JobID"]}_job'):
+            # Check if nuid is available
+
+            # Prepare payload
+            payload = {
+                "JobID": job['JobID'],
+                "NUID": nuid
+
+            }
+            try:
+                # Sending the POST request to save the job
+                response = requests.post(f"http://api:4000/j/jobs/starred", json=payload)
+
+                # Check if the response is successful
+                if response.status_code == 200:
+                    st.success("Successfully saved Job!")
+                else:
+                    st.error(f"Failed to save Job. Status code: {response.status_code}")
+                    st.json(payload)  # Debugging the response
+            except requests.exceptions.RequestException as e:
+                st.error(f"An error occurred while saving the job: {e}")
+
+
+def saveReviewButton(review):
     try:
         allStarred = requests.get(f'http://api:4000/r/review/starred/{nuid}').json()
     except requests.exceptions.RequestException as e:
@@ -109,7 +148,6 @@ if st.session_state.page == "job_details":
     else:
         userstate = position['JobID'] == 0
 
-    Header()
     if st.button("← Back to Search"):
         st.session_state.page = "student_home"
         st.switch_page("pages/student_home.py")
@@ -119,11 +157,7 @@ if st.session_state.page == "job_details":
         employer = requests.get(f'http://api:4000/e/employer/{position["employerID"]}').json()[0]['Name']
         make_listing(position)
 
-        if userstate:
-            st.button("I have worked as this position", disabled=True)
-
-        else:
-            st.button("❓ I'm interested in this position", disabled=True)
+        saveJobButton(position)
 
     st.write(position["Description"])
     st.write(f"Salary:", position['Salary'])

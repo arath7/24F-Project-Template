@@ -33,6 +33,7 @@ def StudentPageNav():
 
     st.sidebar.page_link("pages/starred_reviews.py", label="Starred Reviews", icon="🌟")
     st.sidebar.page_link("pages/starred_employers.py", label="Starred Employers", icon="👔")
+    st.sidebar.page_link("pages/starred_jobs.py", label="Starred Jobs", icon="💼")
 
 
 #### ------------------------ System Admin Role ------------------------
@@ -52,7 +53,7 @@ def SideBarLinks(show_home=False):
     This function handles adding links to the sidebar of the app based upon the logged-in user's role, which was put in the streamlit session_state object when logging in.
     """
 
-
+    Header()
     # If there is no logged in user, redirect to the Home (Landing) page
     if "authenticated" not in st.session_state:
         st.session_state.authenticated = False

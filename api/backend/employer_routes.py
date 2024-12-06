@@ -92,7 +92,7 @@ def add_new_starred_employer():
 
 # Get employer details for an employer with a particular employerID
 @employer.route('/employer/<employerID>', methods=['GET'])
-def get_starred_employer(employerID):
+def get_employer(employerID):
     current_app.logger.info('GET /employer/<employerID> route')
     cursor = db.get_db().cursor()
     cursor.execute('SELECT * FROM Employer WHERE employerID = {0}'.format(employerID))
@@ -106,7 +106,7 @@ def get_starred_employer(employerID):
 
 # Get employer details for an employer with a particular employerID
 @employer.route('/employer/starred/<NUID>', methods=['GET'])
-def get_employer(NUID):
+def get_starred_employer(NUID):
     current_app.logger.info('GET /employer/<NUID> route')
     cursor = db.get_db().cursor()
     cursor.execute('SELECT * FROM Starred_Employers WHERE NUID = {0}'.format(NUID))
