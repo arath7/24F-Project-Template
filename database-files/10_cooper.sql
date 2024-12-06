@@ -52,7 +52,7 @@ CREATE TABLE Job
    Name             VARCHAR(100) NOT NULL,
    Description      TEXT         NOT NULL,
    numOpenings      INT          NOT NULL,
-   returnOffers     INT          NOT NULL,
+   returnOffers     BOOLEAN      NOT NULL,
    Salary           DOUBLE       NOT NULL,
    AggregatedReview TEXT, -- need to cascade and make later
    Rating           INT, -- cascade and make later

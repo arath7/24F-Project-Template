@@ -6,7 +6,7 @@ logger = logging.getLogger(__name__)
 import streamlit as st
 from modules.nav import SideBarLinks
 from modules.nav import Header
-from pages.student_home import make_listing
+# from pages.student_home import make_listing
 
 import requests
 
@@ -81,6 +81,16 @@ def editReview(review):
         st.switch_page('pages/write_review.py')
 
 
+def make_listing(pos):
+    employer = requests.get(f'http://api:4000/e/employer/{pos["employerID"]}').json()[0]['Name']
+
+    st.write(pos['Name'])
+    st.write(f"💼 {employer}")
+
+    rating = requests.get(f'http://api:4000/j/jobs/averageRating/{pos.get("JobID")}').json()[0]
+    update = (float(rating['AVG(overallSatisfaction)']) / 10)
+    scaledRating = update * 5
+    st.write("⭐" * int(scaledRating) + "☆" * math.ceil(5 - scaledRating))
 
 # Job details page logic
 if st.session_state.page == "job_details":
