@@ -17,16 +17,12 @@ DROP TABLE IF EXISTS StudentJobs;
 DROP TABLE IF EXISTS JobCategory;
 DROP TABLE IF EXISTS Student;
 
-
--- Create JobCategory table first as it's referenced in Job table
 CREATE TABLE JobCategory
 (
    JobCategoryID INT AUTO_INCREMENT PRIMARY KEY,
    Name VARCHAR(100) NOT NULL
 );
 
-
--- Employer table creation
 CREATE TABLE Employer
 (
    employerID  INT AUTO_INCREMENT PRIMARY KEY,
@@ -39,8 +35,6 @@ CREATE TABLE Employer
    UNIQUE (Address)
 );
 
-
--- Job table creation (now it can reference JobCategory)
 CREATE TABLE Job
 (
    JobID            INT AUTO_INCREMENT PRIMARY KEY,
@@ -51,11 +45,10 @@ CREATE TABLE Job
    numOpenings      INT          NOT NULL,
    returnOffers     BOOLEAN      NOT NULL,
    Salary           DOUBLE       NOT NULL,
-   FOREIGN KEY (JobCategoryID) REFERENCES JobCategory (JobCategoryID),
-   FOREIGN KEY (employerID) REFERENCES Employer (employerID)
+   FOREIGN KEY (JobCategoryID) REFERENCES JobCategory (JobCategoryID) ON DELETE RESTRICT,
+   FOREIGN KEY (employerID) REFERENCES Employer (employerID) ON DELETE RESTRICT
 );
 
--- Student table creation
 CREATE TABLE Student
 (
    NUID             INT          NOT NULL,
@@ -79,72 +72,61 @@ CREATE TABLE StudentJobs
     StartDate   DATETIME NOT NULL,
     EndDate     DATETIME NOT NULL, -- can be in the future if job ends later
     PRIMARY KEY (NUID, jobID),
-    FOREIGN KEY (jobID) REFERENCES Job (jobID)
+    FOREIGN KEY (jobID) REFERENCES Job (jobID) ON DELETE CASCADE,
+    FOREIGN KEY (NUID) REFERENCES Student (NUID) ON DELETE CASCADE
 );
 
-
--- Review table creation
 CREATE TABLE Review
 (
    reviewID              INT AUTO_INCREMENT PRIMARY KEY,
    StudentNUID           INT NOT NULL,
    learningOpportunities INT NOT NULL,
    workCulture           INT NOT NULL,
-   overallSatisfaction   INT NOT NULL, -- will this be the overall rating? or use an average to get overall rating
+   overallSatisfaction   INT NOT NULL, -- overall rating of co-op
    Mentorship            INT NOT NULL,
    textReview            TEXT,
    JobID                 INT NOT NULL,
-   FOREIGN KEY (JobID) REFERENCES Job (JobID),
-   FOREIGN KEY (StudentNUID) REFERENCES Student (NUID)
+   FOREIGN KEY (JobID) REFERENCES Job (JobID) ON DELETE CASCADE,
+   FOREIGN KEY (StudentNUID) REFERENCES Student (NUID) ON DELETE RESTRICT
 );
 
-
--- Notifications table creation
-CREATE TABLE Notifications -- what happens to a notif if a student is deleted
+CREATE TABLE Notifications
 (
    notifID INT AUTO_INCREMENT PRIMARY KEY,
    NUID INT NOT NULL,
    sentDate   DATETIME NOT NULL,
    Content    TEXT     NOT NULL,
-   FOREIGN KEY (NUID) REFERENCES Student (NUID)
+   FOREIGN KEY (NUID) REFERENCES Student (NUID) ON DELETE CASCADE
 );
 
-
--- Starred Employers table creation
-CREATE TABLE Starred_Employers  -- delete all starred employers if a student is deleted
+CREATE TABLE Starred_Employers
 (
    employerID INT NOT NULL,
    NUID INT NOT NULL,
    PRIMARY KEY (employerID, NUID),
-   FOREIGN KEY (NUID) REFERENCES Student (NUID),
-   FOREIGN KEY (employerID) REFERENCES Employer (employerID)
+   FOREIGN KEY (NUID) REFERENCES Student (NUID) ON DELETE CASCADE,
+   FOREIGN KEY (employerID) REFERENCES Employer (employerID) ON DELETE CASCADE
 );
 
-
--- Starred Jobs table creation
-CREATE TABLE Starred_Jobs -- delete all starred jobs if a student is deleted
+CREATE TABLE Starred_Jobs
 (
    JobID INT NOT NULL,
    NUID INT NOT NULL,
    PRIMARY KEY (JobID, NUID),
-   FOREIGN KEY (NUID) REFERENCES Student (NUID),
-   FOREIGN KEY (JobID) REFERENCES Job (JobID)
+   FOREIGN KEY (NUID) REFERENCES Student (NUID) ON DELETE CASCADE,
+   FOREIGN KEY (JobID) REFERENCES Job (JobID) ON DELETE CASCADE
 );
 
-
--- Starred Reviews table creation
-CREATE TABLE Starred_Reviews -- delete all starred reviews if a student is deleted
+CREATE TABLE Starred_Reviews
 (
    ReviewID INT NOT NULL,
    NUID INT NOT NULL,
    PRIMARY KEY (reviewID, NUID),
-   FOREIGN KEY (NUID) REFERENCES Student (NUID),
-   FOREIGN KEY (ReviewID) REFERENCES Review (ReviewID)
+   FOREIGN KEY (NUID) REFERENCES Student (NUID) ON DELETE CASCADE, -- delete all starred reviews if a student is deleted
+   FOREIGN KEY (ReviewID) REFERENCES Review (ReviewID) ON DELETE CASCADE -- delete starred review if review is deleted
 );
 
-
-
-CREATE TABLE Administrator -- what happens to a notif if the admin is deleted
+CREATE TABLE Administrator
 (
    AdminID INT AUTO_INCREMENT PRIMARY KEY,
    Name    VARCHAR(100) NOT NULL,
@@ -153,17 +135,13 @@ CREATE TABLE Administrator -- what happens to a notif if the admin is deleted
    UNIQUE (Email) 
 );
 
-
-
-
--- Flagged Content table creation
 CREATE TABLE Flagged_Content
 (
    FlagID          INT      NOT NULL AUTO_INCREMENT PRIMARY KEY,
    ReviewID        INT      NOT NULL,
-   adminID         INT      NOT NULL, -- admin who flagged it, but what happens if the admin is deleted?
+   adminID         INT, -- can have an admin, but can also be null if admin was deleted
    ReasonSubmitted TEXT     NOT NULL,
-   DateFlagged     DATETIME NOT NULL,
-   FOREIGN KEY (ReviewID) REFERENCES Review (ReviewID),
-   FOREIGN KEY (adminID) REFERENCES Administrator (adminID)
+   DateFlagged     DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+   FOREIGN KEY (ReviewID) REFERENCES Review (ReviewID) ON DELETE CASCADE, -- if a review is deleted, no need for flagged content within it
+   FOREIGN KEY (adminID) REFERENCES Administrator (adminID) ON DELETE SET NULL
 );

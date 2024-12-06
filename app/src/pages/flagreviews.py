@@ -19,22 +19,21 @@ else:
     st.error("Failed to fetch reviews")
     st.stop()
 
-
-
 # Display reviews
 st.title("Student Reviews")
 for review in reviews:
     student_info = { 
         'reviewer_info': f'http://api:4000/s/Student/{review["StudentNUID"]}',
         'job_info': f'http://api:4000/j/jobs/{review["JobID"]}',
-        'company_info': f'http://api:4000/j/jobs/employer/{review["JobID"]}' }
+        'company_info': f'http://api:4000/j/jobs/employer/{review["JobID"]}' 
+        }
     student_json = {}
     for key, route in student_info.items():
         response = requests.get(route)
         if response.status_code == 200:
             student_json[key] = response.json()
         else:
-            st.error(f"Failed to fetch statistics from {route}")
+            st.error(f"Failed to fetch student information from {route}")
             st.stop()
 
     fName = (student_json.get('reviewer_info', []))[0]['firstName']
@@ -50,16 +49,19 @@ for review in reviews:
     
     
     # Form to flag a review
-    with st.form(f"flag_review_form_{review['reviewID']}"):
+    with st.form(f"flag_review_form"):     # with st.form(f"flag_review_form_{review['reviewID']}"):
         reason = st.text_input("Reason for flagging")
         submitted = st.form_submit_button("Flag Review")
         if submitted:
             flagged_review = {
                 "ReviewID": review['reviewID'],
-                "ReasonSubmitted": reason
+                # "adminID": adminID,
+                "ReasonSubmitted": reason,
+
             }
             flag_response = requests.post('http://api:4000/fr/flagged_content', json=flagged_review)
             if flag_response.status_code == 200:
                 st.success("Review flagged successfully")
             else:
                 st.error("Failed to flag review")
+                st.stop()
