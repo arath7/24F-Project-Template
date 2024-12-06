@@ -38,7 +38,7 @@ if len(starred_reviews) > 0:
         col1, col2 = st.columns([1, 2])
 
         with col1:
-            if st.button(f"View Details", key=f'{review["reviewID"]}'):
+            if st.button(f"View Details", key=f'{review["reviewID"]}_from_review'):
                 st.session_state.page = "review_details"
                 st.session_state['prevPage'] = "starred_reviews"
                 st.session_state.selected_review = review
@@ -46,7 +46,7 @@ if len(starred_reviews) > 0:
                 st.switch_page('pages/review_details.py');
 
         with col2:
-            if st.button(f"🗑️", key=f'delete{starredreview["ReviewID"]}'):
+            if st.button(f"🗑️", key=f'delete{starredreview["ReviewID"]}_from_review'):
                 delete_url = f'http://api:4000/r/review/starred/{starredreview["ReviewID"]}'  # Correct URL path
                 try:
                     response = requests.delete(delete_url)
