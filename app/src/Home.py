@@ -75,4 +75,14 @@ if st.button("Act as joe, a admin 👷‍♂️",
 
 
 
+if st.button("Act as Yasmil, an advisor 👷‍♂️",
+             type = 'primary',
+             use_container_width=True ):
+    st.session_state['authenticated'] = True
+    st.session_state['role'] = 'advisor'
+    st.session_state['first_name'] = 'Joe'
+    st.switch_page('pages/advisor_dashboard.py')
+
+
+
 

@@ -44,6 +44,16 @@ def AdminPageNav():
     st.sidebar.page_link("pages/job_admin.py", label="Jobs", icon="💼")
     st.sidebar.page_link("pages/employers_admin.py", label="Employers", icon="🏢")
 
+
+def AdvisorPageNav():
+    # st.sidebar.page_link("pages/flagreviews.py", label="Reviews", icon="📝")
+    st.sidebar.page_link("pages/statistics.py", label="Statistics", icon="📊")
+    st.sidebar.write("")
+    st.sidebar.write("")
+    st.sidebar.write("Content")
+    st.sidebar.page_link("pages/job_admin.py", label="Jobs", icon="💼")
+    st.sidebar.page_link("pages/employers_admin.py", label="Employers", icon="🏢")
+
 def Header():
     st.markdown("<h1 style='text-align: center; color: #e26c5c;'>CO-OPer Rates</h1>", unsafe_allow_html=True)
 
@@ -67,7 +77,7 @@ def SideBarLinks(show_home=False):
     # Show the other page navigators depending on the users' role.
     if st.session_state["authenticated"]:
 
-        # If the user role is usaid worker, show the Api Testing page
+        # If the user role is student, bring them to the job search
         if st.session_state["role"] == "student":
             StudentPageNav()
 
@@ -75,9 +85,13 @@ def SideBarLinks(show_home=False):
         if st.session_state["role"] == "administrator":
             AdminPageNav()
 
+        # If the user is an s, give them access to the administrator pages
+        if st.session_state["role"] == "advisor":
+            AdvisorPageNav()
+
     # Always show the About page at the bottom of the list of links
 
-    AboutPageNav()
+    # AboutPageNav()
     st.sidebar.write("")
 
     if st.session_state["authenticated"]:
