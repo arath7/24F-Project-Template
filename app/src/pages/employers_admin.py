@@ -43,7 +43,7 @@ for employer in filtered_employers:
         st.write("")
         
     with col2:
-        if st.button(f"Delete {employer['Name']}", key=employer['employerID']):
+        if st.button("Delete", key=employer['employerID']):
             job_response = requests.get(f'http://api:4000/e/employer/{employer["employerID"]}/jobs')
             if job_response.status_code == 200:
                 jobs = job_response.json()
@@ -60,7 +60,7 @@ for employer in filtered_employers:
                 st.error("Failed to check job openings for this employer")
             
     with col3:
-        if st.button(f"Update {employer['Name']}", key=f"update_{employer['employerID']}"):
+        if st.button("Update", key=f"update_{employer['employerID']}"):
             st.session_state['update_employer'] = employer
 
 

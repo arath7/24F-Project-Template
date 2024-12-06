@@ -1,66 +1,114 @@
 import logging
+logger = logging.getLogger(__name__)
 import streamlit as st
-from streamlit_extras.switch_page_button import switch_page
 from modules.nav import SideBarLinks
 from assets.fakedata import fakedata
-
-# Logger configuration
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+from pages.student_home import make_listing
+import requests 
 
 # Page configuration
-st.set_page_config(page_title="Admin Dashboard", layout="wide")
+st.set_page_config(page_title="Job Details", layout="wide")
 SideBarLinks()
 
-# Simulated admin data
-reviews = fakedata.get('Review')
-students = fakedata.get("Student")
+# Fetch employer details
+response = requests.get('http://api:4000/j/jobs')
+if response.status_code == 200:
+    job_details = response.json()
+else:
+    st.error("Failed to fetch jobs")
+    st.stop()
 
-# Function to get student review info
-def get_student_review_info(reviews, students):
-    student_review_info = []
-    student_dict = {student["NUID"]: student["firstName"] for student in students}
 
-    for review in reviews:
-        student_name = student_dict.get(review["StudentNUID"], "Unknown Student")
-        ratings = [review["learningOpportunities"], review["workCulture"], review["overallSatisfaction"], review["Mentorship"]]
-        average_rating = sum(ratings) / len(ratings)
-        student_review_info.append({"studentName": student_name, "rating": average_rating, "comment": review["textReview"]})
 
-    return student_review_info
 
-student_review_info = get_student_review_info(reviews, students)
+# Search bar to filter employers by name
+search_query = st.text_input("Search for Job by Name")
 
-# Admin dashboard logic
-st.markdown("<h1 style='text-align: center; color: blue;'>Admin Dashboard</h1>", unsafe_allow_html=True)
 
-# Navigation Buttons
-col1, col2, col3 = st.columns(3)
+# Filter employers based on search query
+if search_query:
+    filtered_jobs = [job for job in job_details if search_query.lower() in job['Name'].lower()]
+else:
+    filtered_jobs = [job_details[0]]
 
-with col1:
-    if st.button("View All Students"):
-        logger.info("Admin clicked to view all students")
-        switch_page("pages/students_list.py")
+# Display filtered employer details with delete button
+st.header("Jobs List")
+for job in filtered_jobs:
+    col1, col2, col3 = st.columns([3, 1, 1])
+    with col1:
+        st.write(f"Name: {job['Name']}")
+        st.write(f"Description: {job['Description']}")
+        st.write(f"Number of Openings: {job['numOpenings']}")
+        st.write(f"Return Offers: {job['returnOffers']}")
+        st.write(f"Salary: {job['Salary']}")
+        st.write("")
+        
+    with col2:
+        if st.button("Delete", key=job['JobID']):
+            
+            delete_response = requests.delete(f'http://api:4000/j/jobs/{job["JobID"]}')
+            if delete_response.status_code == 200:
+                st.success(f"Job {job['Name']} deleted successfully")
+            else:
+                st.error("Failed to delete job")
+       
+            
+    with col3:
+        if st.button("Update", key=f"update_{job['JobID']}"):
+            st.session_state['update_job'] = job
 
-with col2:
-    if st.button("Manage Jobs"):
-        logger.info("Admin clicked to manage jobs")
-        switch_page("pages/manage_jobs.py")
 
-with col3:
-    if st.button("Statistics Dashboard"):
-        logger.info("Admin clicked to view statistics dashboard")
-        switch_page("pages/statistics_dashboard.py")
+# Form to update a job
+if 'update_job' in st.session_state:
+    st.header(f"Update Job: {st.session_state['update_job']['Name']}")
+    with st.form("update_job_form"):
+        name = st.text_input("Name", value=st.session_state['update_job']['Name'])
+        description = st.text_area("Description", value=st.session_state['update_job']['Description'])
+        num_openings = st.number_input("Number of Openings", value=st.session_state['update_job']['numOpenings'])
+        return_offers = st.checkbox("Return Offers", value=st.session_state['update_job']['returnOffers'])
+        salary = st.number_input("Salary", value=st.session_state['update_job']['Salary'])
+        submitted = st.form_submit_button("Update Job")
+        if submitted:
+            updated_job = {
+                "Name": name,
+                "Description": description,
+                "numOpenings": num_openings,
+                "returnOffers": return_offers,
+                "Salary": salary,
+            }
+            response = requests.put(f'http://api:4000/j/jobs/{st.session_state["update_job"]["JobID"]}', json=updated_job)
+            if response.status_code == 200:
+                st.success("Job updated successfully")
+                del st.session_state['update_job']
+                st.experimental_rerun()  # Refresh the page to update the list
+            else:
+                st.error("Failed to update job")
 
-# Display student reviews
-st.write("### Recent Reviews")
+# Form to add a new job
+st.header("Add New Job")
+with st.form("add_job_form"):
+    employer_id = st.text_input("Employer ID")
+    job_category_id = st.text_input("Job Category ID")
+    name = st.text_input("Name")
+    description = st.text_area("Description")
+    num_openings = st.number_input("Number of Openings")
+    return_offers = st.checkbox("Return Offers")
+    salary = st.number_input("Salary")
+    submitted = st.form_submit_button("Add Job")
+    if submitted:
+        new_job = {
+            "employerID": employer_id,
+            "JobCategoryID" : job_category_id,
+            "Name": name,
+            "Description": description,
+            "numOpenings": num_openings,
+            "returnOffers": return_offers,
+            "Salary": salary,
+        }
+        response = requests.post('http://api:4000/j/jobs', json=new_job)
+        if response.status_code == 200:
+            st.success("Job added successfully")
+            st.experimental_rerun()  # Refresh the page to update the list
+        else:
+            st.error("Failed to add job")
 
-for review in student_review_info:
-    with st.container():
-        col1, col2 = st.columns([1, 4])
-        with col1:
-            st.write("👤")
-        with col2:
-            st.markdown(f"**{review['studentName']}**")
-            st.write(review["comment"])
-            st.write("⭐" * int(review["rating"]) + "☆" * (5 - int(review["rating"])))
