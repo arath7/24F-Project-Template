@@ -186,5 +186,4 @@ def get_job_average_rating(jobID):
     the_response = make_response(jsonify(theData))
     the_response.status_code = 200
     return the_response
-    return the_response
-
+    
