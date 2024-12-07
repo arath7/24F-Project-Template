@@ -41,9 +41,9 @@ SideBarLinks(show_home=True)
 logger.info("Loading the Home page of the app")
 
 # Home Screen Title
-st.write('##### Welcome! Please choose the user you would like to log in as')
+st.write('##### Welcome! Please choose the user you would like to log in as:')
 
-if st.button("Act as Kyle, a student searching for co-op 🧑‍💻",
+if st.button("Kyle: a student searching for co-op 🧑‍💻",
              type = 'primary',
              use_container_width=True ):
     st.session_state['authenticated'] = True
@@ -53,7 +53,7 @@ if st.button("Act as Kyle, a student searching for co-op 🧑‍💻",
 
 
 
-if st.button("Act as Penny, a student who completed a co-op 👩‍🎓",
+if st.button("Penny: a student who completed a co-op 👩‍🎓",
              type = 'primary',
              use_container_width=True ):
     st.session_state['authenticated'] = True
@@ -65,7 +65,7 @@ if st.button("Act as Penny, a student who completed a co-op 👩‍🎓",
 
 
 
-if st.button("Act as joe, a admin 👷‍♂️",
+if st.button("Joe: an application administrator 👷‍♂️",
              type = 'primary',
              use_container_width=True ):
     st.session_state['authenticated'] = True
@@ -75,7 +75,7 @@ if st.button("Act as joe, a admin 👷‍♂️",
 
 
 
-if st.button("Act as Yasmil, an advisor 👷‍♂️",
+if st.button("Yasmil: a co-op advisor 👷‍♂️",
              type = 'primary',
              use_container_width=True ):
     st.session_state['authenticated'] = True
