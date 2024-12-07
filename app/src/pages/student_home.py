@@ -44,7 +44,7 @@ def make_listing(job):
 
 # Main search page logic
 if st.session_state.page == "student_home":
-    st.subheader(f"Welcome to your Dashboard {st.session_state['first_name']}!")
+    st.subheader(f"Welcome to your Dashboard!")
 
     search_query = st.text_input("", placeholder="Search for companies or positions")
 
