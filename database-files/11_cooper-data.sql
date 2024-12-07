@@ -470,10 +470,11 @@ INSERT INTO Notifications (NUID, sentDate, Content) VALUES
 (100057, '2024-12-01 22:30:00', 'Your internship report submission has been received.'),
 (100058, '2024-12-01 22:45:00', 'Reminder: Review your co-op agreement details.'),
 (100059, '2024-12-01 23:00:00', 'Internship site visit confirmed for Dec 9th.'),
-(100060, '2024-12-01 23:15:00', 'Submit your co-op reflection essay by Dec 14th.');
+(100060, '2024-12-01 23:15:00', 'Submit your co-op reflection essay by Dec 14th.'),
+(100064, '2024-12-02 20:08:00', 'Welcome to CO-OPer Rates');
+;
 
 INSERT INTO Notifications (NUID, Content) VALUES
-    (100064, 'Welcome to CO-OPer Rates'),
     (100064, 'Don\'t forget to look at reviews for jobs you are interested in!');
 
 

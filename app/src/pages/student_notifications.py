@@ -21,19 +21,6 @@ if notifications:
             with col1:
                 st.markdown(f"##### {notification.get('sentDate')}")
                 st.markdown(f"{notification.get('Content')}")
-            with col2:
-                if st.button('🗑️'):
-                    delete_url = f"http://api:4000/n/Notifications/{notification.get('notifID')}"
-                    try:
-                        response = requests.delete(delete_url)
-                        if response.status_code == 200:
-                            st.success(f"Job removed from saved list!")
-                        elif response.status_code == 404:
-                            st.error(f"Job not found.")
-                        else:
-                            st.error(f"Failed to delete job. Status code: {response.status_code}")
-                    except requests.exceptions.RequestException as e:
-                        st.error(f"An error occurred: {e}")
 
 else:
     st.write("*You have no new notifications! 👍*")

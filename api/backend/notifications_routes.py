@@ -41,7 +41,7 @@ def create_notification():
 def get_notifications(NUID):
     current_app.logger.info(f'GET /Notifications/{NUID} route')
 
-    query = f'''SELECT * FROM Notifications WHERE NUID = {NUID}'''
+    query = f'''SELECT * FROM Notifications WHERE NUID = {NUID} ORDER BY sentDATE DESC'''
     current_app.logger.info(query)
 
     cursor = db.get_db().cursor()
