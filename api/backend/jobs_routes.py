@@ -64,7 +64,7 @@ def add_new_job():
 
 
 #------------------------------------------------------------
-# Add a new job listing to the system
+# Star a job listing
 @jobs.route('/jobs/starred', methods=['POST'])
 def add_new_starred_jobs():
 
@@ -106,7 +106,7 @@ def get_job(jobID):
     return the_response
 
 #------------------------------------------------------------
-# Get job details for a job with a particular jobID
+# Get starred jobs for a student with a particular NUID
 @jobs.route('/jobs/starred/<nuid>', methods=['GET'])
 def get_starred_jobs(nuid):
     current_app.logger.info('GET /jobs/<jobID> route')
@@ -120,12 +120,12 @@ def get_starred_jobs(nuid):
 
 
 #------------------------------------------------------------
-# Get job details for a job with a particular jobID
+# Get jobs listed by a particular employer with a particular employerID
 @jobs.route('/jobs/<employerID>/employer', methods=['GET'])
 def get_job_employer(employerID):
     current_app.logger.info('GET /jobs/<employerID>/employer route')
     cursor = db.get_db().cursor()
-    cursor.execute('SELECT * FROM Job WHERE JobID = {0}'.format(employerID))
+    cursor.execute('SELECT * FROM Job WHERE employerID = {0}'.format(employerID))
 
     theData = cursor.fetchall()
 
@@ -181,7 +181,7 @@ def delete_job(jobID):
     return response
 
 
-#Delete an existing job listing with a particular jobID
+#Delete a starred job listing with a particular jobID
 @jobs.route('/jobs/starred/<jobID>', methods=['DELETE'])
 def delete_starred_job(jobID):
     current_app.logger.info('DELETE /jobs/<jobID> route')

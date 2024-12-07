@@ -72,30 +72,6 @@ def get_customer(JobCategoryID):
 
 
 #------------------------------------------------------------
-#Update an existing job category with a particular jobCategoryID
-@job_category.route('/jobCategory/<JobCategoryID>', methods=['PUT'])
-def update_jobcategory(JobCategoryID):
-
-    the_data = request.json
-    current_app.logger.info(the_data)
-
-    Name = the_data['Name']
-
-
-    # Prepare the SQL query
-    query = f"UPDATE JobCategory SET Name = '{Name}' WHERE JobCategoryID = {JobCategoryID}"
-
-    
-    current_app.logger.info(query)
-
-    # executing and committing the insert statement 
-    cursor = db.get_db().cursor()
-    cursor.execute(query)
-    db.get_db().commit()
-    
-    response = make_response("Successfully updated job category")
-    response.status_code = 200
-    return response
 
 #Delete an existing job category with a particular jobCategoryID
 @job_category.route('/jobCategory/<JobCategoryID>', methods=['DELETE'])
