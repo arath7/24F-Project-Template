@@ -80,7 +80,7 @@ if st.button("Yasmil: a co-op advisor 👷‍♂️",
              use_container_width=True ):
     st.session_state['authenticated'] = True
     st.session_state['role'] = 'advisor'
-    st.session_state['first_name'] = 'Joe'
+    st.session_state['first_name'] = 'Yasmil'
     st.switch_page('pages/advisor_dashboard.py')
 
 

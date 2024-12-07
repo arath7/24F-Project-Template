@@ -2,8 +2,6 @@ import logging
 logger = logging.getLogger(__name__)
 import streamlit as st
 from modules.nav import SideBarLinks
-from assets.fakedata import fakedata
-from pages.student_home import make_listing
 from datetime import datetime
 
 import requests 
@@ -40,7 +38,7 @@ for student in filtered_students:
         st.write(f"Graduation Year: {student['GradYear']}")
         st.write(f"Search Status: {'Looking for a job' if student['searchStatus'] else 'Not looking for a job'}")
         st.write("")
-        
+
     with col2:
         if st.button("Delete", key=f"delete_{student['NUID']}"):
             response = requests.delete(f'http://api:4000/s/Student/{student["NUID"]}')
