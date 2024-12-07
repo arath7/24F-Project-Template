@@ -162,7 +162,7 @@ if st.session_state.page == "job_details":
     st.write(position["Description"])
     st.write(f"Salary:", position['Salary'])
     st.write(f"Number of open positions:", position['numOpenings'])
-    st.write(f"Average return offers:", position['returnOffers'])
+    st.write(f"Return Offers: {'Yes' if position['returnOffers'] > 0 else 'No'}")
 
     if userstate:
         if st.button("Leave a review →", type = 'primary') :

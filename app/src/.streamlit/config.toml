@@ -19,7 +19,7 @@ showSidebarNavigation = false
 #backgroundColor="#002b36"
 #secondaryBackgroundColor="#586e75"
 #textColor="#eee8d5"
-#font="Sans serif"
+#font="sans serif"
 
 #primaryColor = "#268BD2"  # Blue (used for buttons, highlights)
 #backgroundColor = "#FDF6E3"  # Light background color
@@ -31,7 +31,7 @@ primaryColor = "#e26c5c"
 backgroundColor = "#E8F9F2"  # Light pastel background
 secondaryBackgroundColor = "#D1EAE1"  # A subtle pastel green for secondary background
 textColor = "#2D4D43"  # Darker greenish color for text
-font = "mono"  # Keeping the mono font style as requested
+font = "sans serif"  # Keeping the mono font style as requested
 
 
 
