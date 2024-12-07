@@ -16,3 +16,5 @@ st.session_state.selected_position = ""
 # Initialize session state
 if "page" not in st.session_state:
     st.session_state.page = "advisor_dashboard"
+
+st.title('Welcome to the Advisor Home Page!')

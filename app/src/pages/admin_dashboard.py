@@ -17,5 +17,5 @@ st.session_state.selected_position = ""
 if "page" not in st.session_state:
     st.session_state.page = "admin_dashboard"
 
-st.title('Admin Dashboard')
-st.write('Welcome to the Admin Dashboard!')
+
+st.title('Welcome to the Admin Home Page!')
