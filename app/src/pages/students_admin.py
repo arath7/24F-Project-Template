@@ -116,3 +116,44 @@ if 'update_student' not in st.session_state:
                 st.success("Student added successfully")
             else:
                 st.error("Failed to add student")
+
+# Fetch job details
+response = requests.get('http://api:4000/j/jobs')
+if response.status_code == 200:
+    jobs = response.json()
+else:
+    st.error("Failed to fetch job details")
+    st.stop()
+
+# Create a dictionary to map student NUID to student name
+student_name_map = {student['NUID']: f"{student['firstName']} {student['lastName']}" for student in students}
+
+# Create a dictionary to map job ID to job name
+job_name_map = {job['JobID']: job['Name'] for job in jobs}
+
+# Form to add a job application
+st.header("Add Job Application")
+with st.form("add_job_application_form"):
+    student_names = [f"{student['firstName']} {student['lastName']}" for student in students]
+    job_names = [job['Name'] for job in jobs]
+
+    selected_student_name = st.selectbox("Select Student", student_names)
+    selected_job_name = st.selectbox("Select Job", job_names)
+    start_date = st.date_input("Start Date")
+    end_date = st.date_input("End Date")
+
+    submitted = st.form_submit_button("Add Job Application")
+    if submitted:
+        selected_student = next(student for student in students if f"{student['firstName']} {student['lastName']}" == selected_student_name)
+        selected_job = next(job for job in jobs if job['Name'] == selected_job_name)
+
+        new_application = {
+            "jobID": selected_job['JobID'],
+            "StartDate": start_date.isoformat(),
+            "EndDate": end_date.isoformat(),
+        }
+        response = requests.post(f'http://api:4000/s/student/{selected_student["NUID"]}/jobs', json=new_application)
+        if response.status_code == 200:
+            st.success("Job application added successfully")
+        else:
+            st.error("Failed to add job application")
