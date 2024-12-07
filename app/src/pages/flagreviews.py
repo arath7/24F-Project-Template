@@ -19,9 +19,30 @@ else:
     st.error("Failed to fetch reviews")
     st.stop()
 
+# Fetch all students
+response = requests.get('http://api:4000/s/Student')
+if response.status_code == 200:
+    students = response.json()
+else:
+    st.error("Failed to fetch students")
+    st.stop()
+
+# Create a dictionary to map student NUID to student name
+student_name_map = {student['NUID']: f"{student['firstName']} {student['lastName']}" for student in students}
+
+# Search bar to filter reviews by student name
+search_query = st.text_input("Search for Review by Student Name")
+
+# Filter reviews based on search query
+if search_query:
+    filtered_reviews = [review for review in reviews if search_query.lower() in student_name_map.get(review['StudentNUID'], "").lower()]
+else:
+    filtered_reviews = reviews
+
+
 # Display reviews
 st.title("Student Reviews")
-for review in reviews:
+for review in filtered_reviews:
     student_info = { 
         'reviewer_info': f'http://api:4000/s/Student/{review["StudentNUID"]}',
         'job_info': f'http://api:4000/j/jobs/{review["JobID"]}',

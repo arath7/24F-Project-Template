@@ -2,8 +2,6 @@ import logging
 logger = logging.getLogger(__name__)
 import streamlit as st
 from modules.nav import SideBarLinks
-from assets.fakedata import fakedata
-from pages.student_home import make_listing
 import requests 
 
 # Page configuration
