@@ -55,6 +55,7 @@ def AdvisorPageNav():
     st.sidebar.page_link("pages/job_admin.py", label="Jobs", icon="💼")
     st.sidebar.page_link("pages/employers_admin.py", label="Employers", icon="🏢")
     st.sidebar.page_link("pages/students_admin.py", label="Students", icon="👩")
+    st.sidebar.page_link("pages/advisor_notif.py", label="Notify", icon="🔔")
 
 def Header():
     st.markdown("<h1 style='text-align: center; color: #e26c5c;'>CO-OPer Rates</h1>", unsafe_allow_html=True)

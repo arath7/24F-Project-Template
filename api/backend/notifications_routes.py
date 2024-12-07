@@ -14,7 +14,7 @@ from backend.db_connection import db
 notifications = Blueprint('notifications', __name__)
 
 #------------------------------------------------------------
-# Create a notification for a specific user
+# Create a notification for a specific student
 @notifications.route('/Notifications', methods=['POST'])
 def create_notification():
     the_data = request.json
@@ -22,10 +22,9 @@ def create_notification():
 
     NUID = the_data['NUID']
     Content = the_data['Content']
-    sentDate = the_data['sentDate']
 
-    query = f'''INSERT INTO Notifications (NUID, Content, sentDate)
-                VALUES ('{NUID}', '{Content}', '{sentDate}')'''
+    query = f'''INSERT INTO Notifications (NUID, Content)
+                VALUES ('{NUID}', '{Content}')'''
     current_app.logger.info(query)
 
     cursor = db.get_db().cursor()
