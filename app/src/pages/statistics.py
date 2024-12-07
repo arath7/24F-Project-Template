@@ -40,7 +40,7 @@ total_employers = (stats.get('total_employers', []))[0]["COUNT(employerID)"]
 st.markdown("### Application Statistics")
 col1, col2, col3, col4, col5 = st.columns(5)
 with col1:
-    st.metric(label="Return Offer Percentage", value=return_offer_percentage)
+    st.metric(label="Return Offer Percentage", value=f"{return_offer_percentage}%")
 with col2:
     st.metric(label="Total Students", value=total_students)
 with col3:
