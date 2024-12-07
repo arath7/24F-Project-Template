@@ -16,7 +16,7 @@
 - Host: localhost
 - Port: 3200 or alter it if you choose to 
 - User: root
-- Password: <choose your own password>
+- Password: choose your own password
 - Start datagrip with: `docker compose up db -d`
 - Test the connection
 - Must attach directory to Datagrip before `docker compose up db -d`
