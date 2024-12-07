@@ -73,6 +73,3 @@ if st.session_state.page == "student_home":
                         st.switch_page('pages/job_details.py');
 
                     st.write("____")
-
-                    # st.markdown("""<hr style="height:2px;border:none;color:#333;background-color:#333;" /> """,
-                    #             unsafe_allow_html=True)

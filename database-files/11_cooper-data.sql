@@ -472,6 +472,10 @@ INSERT INTO Notifications (NUID, sentDate, Content) VALUES
 (100059, '2024-12-01 23:00:00', 'Internship site visit confirmed for Dec 9th.'),
 (100060, '2024-12-01 23:15:00', 'Submit your co-op reflection essay by Dec 14th.');
 
+INSERT INTO Notifications (NUID, Content) VALUES
+    (100064, 'Welcome to CO-OPer Rates'),
+    (100064, 'Don\'t forget to look at reviews for jobs you are interested in!');
+
 
 INSERT INTO Starred_Employers (employerID, NUID) VALUES
 (1, 100001),
