@@ -131,9 +131,11 @@ def add_job_application(id):
     current_app.logger.info(the_data)
 
     jobID = the_data['jobID']
+    StartDate = the_data['StartDate']
+    EndDate = the_data['EndDate']
 
-    query = f'''INSERT INTO StudentJobs (NUID, jobID)
-      VALUES ('{id}', '{jobID}')'''
+    query = f'''INSERT INTO StudentJobs (NUID, jobID, StartDate, EndDate)
+      VALUES ('{id}', '{jobID}', '{StartDate}', '{EndDate}')'''
     
     current_app.logger.info(query)
 
@@ -145,23 +147,4 @@ def add_job_application(id):
     response.status_code = 200
     return response
 
-#------------------------------------------------------------
-# Delete a job application for a specific student
-@students.route('/student/<id>/jobs', methods=['DELETE'])
-def delete_job_application(id):
-    the_data = request.json
-    current_app.logger.info(the_data)
 
-    jobID = the_data['jobID']
-
-    query = f'''DELETE FROM StudentJobs WHERE NUID = '{id}' AND jobID = '{jobID}' '''
-    
-    current_app.logger.info(query)
-
-    cursor = db.get_db().cursor()
-    cursor.execute(query)
-    db.get_db().commit()
-
-    response = make_response("Successfully deleted job application")
-    response.status_code = 200
-    return response
