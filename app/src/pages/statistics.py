@@ -2,6 +2,9 @@ import requests
 import streamlit as st
 from modules.nav import SideBarLinks
 import pandas as pd
+import matplotlib.pyplot as plt
+import altair as alt
+
 
 # Page configuration
 st.set_page_config(page_title="Statistics", layout="wide")
@@ -58,4 +61,24 @@ df = pd.DataFrame(jobs_by_cat)
 df.rename(columns={"COUNT(j.JobID)": "Number of Jobs", "Name": "Category"}, inplace=True)
 df = df[["Category", "Number of Jobs"]]
 st.markdown("### Overview of Job Categories")
-st.dataframe(df, use_container_width=True)
+st.table(df)
+
+# st.dataframe(df, use_container_width=True)
+
+
+
+# Prepare data
+chart_data = df.copy()
+
+# Bar chart with different colors
+bar_chart = alt.Chart(chart_data).mark_bar().encode(
+    x=alt.X("Category", sort=None, title="Job Category"),
+    y=alt.Y("Number of Jobs", title="Number of Jobs"),
+    color=alt.Color("Category", legend=None)  # Assign unique color per category
+).properties(
+    width=700,
+    height=400,
+    title="Jobs by Category"
+)
+
+st.altair_chart(bar_chart, use_container_width=True)
