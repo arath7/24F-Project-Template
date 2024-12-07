@@ -52,19 +52,3 @@ def get_notifications(NUID):
     the_response.status_code = 200
     return the_response
 
-#------------------------------------------------------------
-# Delete a specific notification by ID
-@notifications.route('/Notifications/<notifID>', methods=['DELETE'])
-def delete_notification(notifID):
-    current_app.logger.info(f'DELETE /Notifications/{notifID} route')
-
-    query = f'''DELETE FROM Notifications WHERE notifID = {notifID}'''
-    current_app.logger.info(query)
-
-    cursor = db.get_db().cursor()
-    cursor.execute(query)
-    db.get_db().commit()
-
-    response = make_response("Successfully deleted notification")
-    response.status_code = 200
-    return response
