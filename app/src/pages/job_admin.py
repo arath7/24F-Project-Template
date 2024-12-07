@@ -65,7 +65,7 @@ if 'update_job' in st.session_state:
         description = st.text_area("Description", value=st.session_state['update_job']['Description'])
         num_openings = st.number_input("Number of Openings", value=st.session_state['update_job']['numOpenings'], step=1)
         return_offers = st.checkbox("Return Offers", value=st.session_state['update_job']['returnOffers'])
-        salary = st.number_input("Salary", value=st.session_state['update_job']['Salary'], step=1)
+        salary = st.number_input("Salary", value=st.session_state['update_job']['Salary'])
         submitted = st.form_submit_button("Update Job")
         if submitted:
             updated_job = {
