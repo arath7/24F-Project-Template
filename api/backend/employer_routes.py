@@ -61,7 +61,7 @@ def add_new_employer():
     return response
 
 #------------------------------------------------------------
-# Add a new employer to the system
+# Star an employer for a student
 @employer.route('/employer/starred', methods=['POST'])
 def add_new_starred_employer():
 
@@ -104,7 +104,7 @@ def get_employer(employerID):
     return the_response
 
 
-# Get employer details for an employer with a particular employerID
+# Get employers starred by a student with a particular NUID
 @employer.route('/employer/starred/<NUID>', methods=['GET'])
 def get_starred_employer(NUID):
     current_app.logger.info('GET /employer/<NUID> route')
@@ -171,7 +171,7 @@ def delete_employer(employerID):
     return response
 
 
-#Delete an existing employer with a particular employerID
+#Delete starred employer
 @employer.route('/employer/starred/<employerID>', methods=['DELETE'])
 def delete_starred_employer(employerID):
     current_app.logger.info('DELETE /employer/<employerID> route')

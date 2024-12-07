@@ -116,6 +116,8 @@ def delete_review(reviewID):
     response.status_code = 200
     return response
 
+
+#Delete an existing starred review with a particular reviewID
 @review.route('/review/starred/<reviewID>', methods=['DELETE'])
 def delete_starred_review(reviewID):
     cursor = db.get_db().cursor()
@@ -161,7 +163,7 @@ def get_job(JobID):
     return the_response
 
 
-#Get all the reviews written for a job, given the JobID
+#Get all the reviews starred by a student, given the studentNUID
 @review.route('/review/starred/<NUID>', methods=['GET'])
 def get_starred_reviews(NUID):
     cursor = db.get_db().cursor()
@@ -175,7 +177,7 @@ def get_starred_reviews(NUID):
 
 
 # ------------------------------------------------------------
-# Add a new review to the system
+# Add a new starred review for a student
 @review.route('/review/starred', methods=['POST'])
 def add_new_starred_review():
     # In a POST request, there is a
