@@ -39,7 +39,6 @@ def StudentPageNav():
 
 #### ------------------------ System Admin Role ------------------------
 def AdminPageNav():
-    st.sidebar.page_link("pages/statistics.py", label="Statistics", icon="📊")
     st.sidebar.page_link("pages/job_admin.py", label="Jobs", icon="💼")
     st.sidebar.page_link("pages/employers_admin.py", label="Employers", icon="🏢")
     st.sidebar.page_link("pages/students_admin.py", label="Students", icon="👩")
@@ -47,7 +46,6 @@ def AdminPageNav():
 
 
 def AdvisorPageNav():
-    # st.sidebar.page_link("pages/flagreviews.py", label="Reviews", icon="📝")
     st.sidebar.page_link("pages/statistics.py", label="Statistics", icon="📊")
     st.sidebar.page_link("pages/flagreviews.py", label="Flag Reviews", icon="📝")
     st.sidebar.page_link("pages/job_admin.py", label="Jobs", icon="💼")
