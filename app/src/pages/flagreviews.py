@@ -49,7 +49,7 @@ for review in reviews:
     
     
     # Form to flag a review
-    with st.form(f"flag_review_form"):     # with st.form(f"flag_review_form_{review['reviewID']}"):
+    with st.form(f"flag_review_form_{review['reviewID']}"):
         reason = st.text_input("Reason for flagging")
         submitted = st.form_submit_button("Flag Review")
         if submitted:
